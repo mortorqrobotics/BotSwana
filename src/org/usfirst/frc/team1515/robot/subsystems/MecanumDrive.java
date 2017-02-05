@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1515.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -69,10 +70,9 @@ public abstract class MecanumDrive extends Subsystem {
 	}
 
 	public void setSpeed(WheelSpeeds speeds) {
-		double factor = 1; // set to -1 to reverse wheels
+		speeds.print();
+		double factor = 1; // set to -1 to reverse wheelsG
 		topLeftWheel.setSpeed(-bound(speeds.topLeft) * factor);
-		topRightWheel.setSpeed(bound(speeds.topRight) * factor);
-		bottomLeftWheel.setSpeed(-bound(speeds.bottomLeft) * factor);
 		bottomRightWheel.setSpeed(bound(speeds.bottomRight) * factor);
 	}
 
@@ -104,11 +104,11 @@ public abstract class MecanumDrive extends Subsystem {
 		setSpeed(new WheelSpeeds(0, 0, 0, 0));
 	}
 
-	// public void resetEncoders() {
-	// for(MecanumWheel wheel : wheels) {
-	// wheel.encoder.reset();
-	// }
-	// }
+//	 public void resetEncoders() {
+//		 for(MecanumWheel wheel : wheels) {
+//			 wheel.encoder.reset();
+//		 }
+//	 }
 
 	public Triple<Double> getRelativeJoystick(Triple<Double> joystickValues) {
 		double x = joystickValues.first;
@@ -171,40 +171,21 @@ public abstract class MecanumDrive extends Subsystem {
 		if (z < 0) {
 			cube = new WheelSpeeds(cube.bottomRight, cube.bottomLeft, cube.topRight, cube.topLeft);
 		}
-
-		System.out.print(cube.topLeft + "\t");
-		System.out.print(cube.topRight + "\t");
-		System.out.print(cube.bottomLeft + "\t");
-		System.out.println(cube.bottomRight);
-
+		
+//		cube.print();
+		
 		setSpeed(cube);
 	}
 
 	public void drive() {
-		// topRightWheel.encoder.update();
-		Triple<Double> triple = getJoystickXYZ();
+//		Triple<Double> triple = getJoystickXYZ();
 //		triple = getRelativeJoystick(triple);
-		setXYZ(triple.first, triple.second, triple.third);
-//		 topLeftWheel.setSpeed(0.3);
-//		 topRightWheel.setSpeed(0.3);
-//		 bottomLeftWheel.setSpeed(0.3);
-//		 bottomRightWheel.setSpeed(0.3);
-//		 topLeftWheel.encoder.update();
-		// topRightWheel.encoder.update();
-		// bottomLeftWheel.encoder.update();
-		// bottomRightWheel.encoder.update();
-		// System.out.println(topLeftWheel.encoder.getSpeed());
-		// System.out.println(topLeftWheel.encoder.getPosition());
-		// System.out.println(topLeftWheel.encoder.getSpeed() + "\t" +
-		// topRightWheel.encoder.getSpeed() + "\t" +
-		// bottomLeftWheel.encoder.getSpeed() + "\t" +
-		// bottomRightWheel.encoder.getSpeed());
-
-		// SmartDashboard.putNumber("encoderVal",
-		// topRightWheel.encoder.getSpeed());
+//		setXYZ(triple.first, triple.second, triple.third);
+		topRightWheel.motor.set(0.15);
 		a = SmartDashboard.getNumber("a", 0.0);
 		b = SmartDashboard.getNumber("b", 1.0);
 		c = SmartDashboard.getNumber("c", 1.0);
 		d = SmartDashboard.getNumber("d", 1.0);
 	}
+	
 }

@@ -1,12 +1,13 @@
 package org.usfirst.frc.team1515.robot.subsystems;
 
+import org.usfirst.frc.team1515.robot.commands.JoystickDrive;
 import org.usfirst.frc.team1515.robot.util.Triple;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class RichardDrive extends MecanumDrive {
+public class KliveDrive extends MecanumDrive {
 
-	public RichardDrive(Joystick joystick) {
+	public KliveDrive(Joystick joystick) {
 		super(joystick);
 	}
 
@@ -38,7 +39,6 @@ public class RichardDrive extends MecanumDrive {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		setDefaultCommand(new JoystickDrive());	
 	}
 }

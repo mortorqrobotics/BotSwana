@@ -83,7 +83,8 @@ public class Align extends Command {
         	if (Math.abs(speed) < MIN_SPEED) {
         		speed = Math.signum(speed) * MIN_SPEED;
         	}
-        	Robot.driveTrain.setSpeed(new WheelSpeeds(-speed + FORWARD_TURN_SPEED, -speed + FORWARD_TURN_SPEED, speed + FORWARD_TURN_SPEED, -speed + FORWARD_SPEED));
+//        	Robot.driveTrain.setSpeed(new WheelSpeeds(speed, -speed, speed, -speed));
+//        	Robot.driveTrain.setSpeed(new WheelSpeeds(speed, speed, speed, speed));
         	if (Math.abs(error) <= MIN_ERROR && lastError > MIN_ERROR) {
         		errorIncrement++;
         	}

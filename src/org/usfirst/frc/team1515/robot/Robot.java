@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team1515.robot;
 
-import org.usfirst.frc.team1515.robot.subsystems.RichardDrive;
+import org.usfirst.frc.team1515.robot.subsystems.KliveDrive;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,7 +14,7 @@ public class Robot extends IterativeRobot {
 
 	public static OI oi;
 	public static Joystick joystick = new Joystick(0);
-	public static final RichardDrive driveTrain = new RichardDrive(joystick);
+	public static final KliveDrive driveTrain = new KliveDrive(joystick);
 	public static final Gyro gyro = new ADXRS450_Gyro();
 	public static final DigitalInput limitSwitch = new DigitalInput(0);
 	
@@ -51,7 +51,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		driveTrain.drive();
 	}
 
 	@Override
