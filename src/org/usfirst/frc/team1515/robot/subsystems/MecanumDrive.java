@@ -42,8 +42,9 @@ public abstract class MecanumDrive extends Subsystem {
 	protected List<MecanumWheel> wheels;
 
 	protected Joystick joystick;
+	protected Joystick rotateStick;
 
-	public MecanumDrive(Joystick joystick) {
+	public MecanumDrive(Joystick joystick, Joystick rotateStick) {
 		topLeftWheel = new MecanumWheel(22, 2);
 		topRightWheel = new MecanumWheel(24, 0);
 		bottomLeftWheel = new MecanumWheel(21, 1);
@@ -57,6 +58,7 @@ public abstract class MecanumDrive extends Subsystem {
 		this.wheels = Collections.unmodifiableList(wheels);
 
 		this.joystick = joystick;
+		this.rotateStick = rotateStick;
 	}
 
 	private double bound(double speed) {
@@ -70,9 +72,11 @@ public abstract class MecanumDrive extends Subsystem {
 	}
 
 	public void setSpeed(WheelSpeeds speeds) {
-		speeds.print();
+//		speeds.print();
 		double factor = 1; // set to -1 to reverse wheelsG
 		topLeftWheel.setSpeed(-bound(speeds.topLeft) * factor);
+		topRightWheel.setSpeed(bound(speeds.topRight * factor));
+		bottomLeftWheel.setSpeed(-bound(speeds.bottomLeft * factor));
 		bottomRightWheel.setSpeed(bound(speeds.bottomRight) * factor);
 	}
 
@@ -143,7 +147,7 @@ public abstract class MecanumDrive extends Subsystem {
 	protected abstract Triple<Double> getJoystickXYZ();
 
 	public void setXYZ(double x, double y, double z) {
-		x *= -DRIVING_SCALE;
+		x *= DRIVING_SCALE;
 		y *= DRIVING_SCALE;
 		z *= TURNING_SCALE;
 		// setSpeed(y + x + z, y - x - z, y + x - z, y - x + z); //is this
@@ -178,10 +182,9 @@ public abstract class MecanumDrive extends Subsystem {
 	}
 
 	public void drive() {
-//		Triple<Double> triple = getJoystickXYZ();
+		Triple<Double> triple = getJoystickXYZ();
 //		triple = getRelativeJoystick(triple);
-//		setXYZ(triple.first, triple.second, triple.third);
-		topRightWheel.motor.set(0.15);
+		setXYZ(triple.first, triple.second, triple.third);
 		a = SmartDashboard.getNumber("a", 0.0);
 		b = SmartDashboard.getNumber("b", 1.0);
 		c = SmartDashboard.getNumber("c", 1.0);

@@ -12,6 +12,5 @@ public class OI {
 	public OI() {
 		align = new JoystickButton(Robot.joystick, 1);
 		align.whenPressed(new Align());
-
 	}
 }

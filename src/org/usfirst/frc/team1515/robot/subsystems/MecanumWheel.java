@@ -24,8 +24,7 @@ public class MecanumWheel {
 		motor.setSafetyEnabled(false); // stops robot from randomly freezing
 										// during competition
 
-//		 encoder = new Encoder(encoderPort1, encoderPort2, true,
-		// Encoder.EncodingType.k4X);
+//		 encoder = new Encoder(encoderPort1, encoderPort2, true, Encoder.EncodingType.k4X);
 		encoder = new EncoderWrapper(encoderPort1);
 		// encoder.setMaxPeriod(.05);
 		// encoder.setMinRate(10);

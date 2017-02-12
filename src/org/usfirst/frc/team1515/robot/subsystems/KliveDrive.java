@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class KliveDrive extends MecanumDrive {
 
-	public KliveDrive(Joystick joystick) {
-		super(joystick);
+	public KliveDrive(Joystick joystick, Joystick rotateStick) {
+		super(joystick, rotateStick);
 	}
 
 	protected Triple<Double> getJoystickXYZ() {
 		double x = joystick.getRawAxis(0); //left/right
 		double y = -joystick.getRawAxis(1); //forward/back
-		double z = joystick.getRawAxis(5); //twist
-
+		double z = rotateStick.getRawAxis(2); //twist
+		
 		if(Math.abs(x) <= DEAD_BAND) {
 			x = 0.0;
 		}
@@ -29,7 +29,7 @@ public class KliveDrive extends MecanumDrive {
 		x *= getThrottle();
 		y *= getThrottle();
 		z *= getThrottle();
-
+		
 		return new Triple<Double>(x, y, z);
 	}
 
