@@ -1,11 +1,11 @@
-package org.usfirst.frc.team1515.robot.commands;
+package org.team1515.botswana.commands;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import org.usfirst.frc.team1515.robot.Robot;
-import org.usfirst.frc.team1515.robot.util.WheelSpeeds;
+import org.team1515.botswana.Robot;
+import org.team1515.botswana.util.WheelSpeeds;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +36,7 @@ public class Align extends Command {
         requires(Robot.driveTrain);
     }
     
-    public void sendRequest() {
+    private void sendRequest() {
     	state = State.PENDING;
     	try {
     		BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
@@ -45,7 +45,6 @@ public class Align extends Command {
     		gyroStartAngle = Robot.gyro.getAngle();
     		lastError = 0;
     		state = State.SUCCESS;
-    		iterations++;
     	} catch (NumberFormatException ex) {
     		state = State.FAILURE;
     		System.out.println("No tape found.");
@@ -68,29 +67,28 @@ public class Align extends Command {
     	}
     	if (state == State.SUCCESS) {
     		System.out.println(targetAngle);
-    		double error = targetAngle - (Robot.gyro.getAngle() - gyroStartAngle);
-        	double speed = error * P + errorSum * I + (error - lastError) * D;
-        	errorSum += error;
-        	if (Math.abs(speed) < MIN_SPEED) {
-        		speed = Math.signum(speed) * MIN_SPEED;
-        	}
-        	if (iterations <= ITERATIONS) {
-        		Robot.driveTrain.setSpeed(new WheelSpeeds(speed, -speed, speed, -speed));
-        	}
-        	if (Math.abs(error) <= MIN_ERROR && lastError > MIN_ERROR) {
-        		errorIncrement++;
-        	}
-        	lastError = error;
-        	if (errorIncrement >= ERROR_INCREMENT_FINISH) {
-        		if (iterations < ITERATIONS) {
-	        		errorIncrement = 0;
-	        		end();
-	        		sendRequest();
-        		} else if (iterations >= ITERATIONS) {
-        			iterations++;
-        			Robot.driveTrain.setSpeed(new WheelSpeeds(0.09, 0.09, 0.09, 0.09));
+        	if (iterations < ITERATIONS) {
+        		double error = targetAngle - (Robot.gyro.getAngle() - gyroStartAngle);
+        		double speed = error * P + errorSum * I + (error - lastError) * D;
+        		errorSum += error;
+        		if (Math.abs(speed) < MIN_SPEED) {
+        			speed = Math.signum(speed) * MIN_SPEED;
         		}
+        		Robot.driveTrain.setSpeed(new WheelSpeeds(speed, -speed, speed, -speed));
+        		if (Math.abs(error) <= MIN_ERROR && lastError > MIN_ERROR) {
+        			errorIncrement++;
+        		}
+        		lastError = error;
+        		if (errorIncrement >= ERROR_INCREMENT_FINISH) {
+        			iterations++;
+        			errorIncrement = 0;
+        			end();
+        			sendRequest();
+        		}
+        	} else {
+        		Robot.driveTrain.moveForward(FORWARD_SPEED);
         	}
+
     	}
     	return !Robot.limitSwitch.get();
     }

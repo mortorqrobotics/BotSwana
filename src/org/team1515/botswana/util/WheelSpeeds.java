@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1515.robot.util;
+package org.team1515.botswana.util;
 
 public class WheelSpeeds {
 

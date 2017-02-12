@@ -1,18 +1,17 @@
-package org.usfirst.frc.team1515.robot.subsystems;
-
-import edu.wpi.first.wpilibj.Joystick;
-
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+package org.team1515.botswana.subsystems;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.usfirst.frc.team1515.robot.Robot;
-import org.usfirst.frc.team1515.robot.util.Triple;
-import org.usfirst.frc.team1515.robot.util.WheelSpeeds;
+import org.team1515.botswana.Robot;
+import org.team1515.botswana.RobotMap;
+import org.team1515.botswana.util.Triple;
+import org.team1515.botswana.util.WheelSpeeds;
 
-import java.util.Collections;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class MecanumDrive extends Subsystem {
 
@@ -44,11 +43,11 @@ public abstract class MecanumDrive extends Subsystem {
 	protected Joystick joystick;
 	protected Joystick rotateStick;
 
-	public MecanumDrive(Joystick joystick, Joystick rotateStick) {
-		topLeftWheel = new MecanumWheel(22, 2);
-		topRightWheel = new MecanumWheel(24, 0);
-		bottomLeftWheel = new MecanumWheel(21, 1);
-		bottomRightWheel = new MecanumWheel(23, 3);
+	public MecanumDrive() {
+		topLeftWheel = new MecanumWheel(RobotMap.MOTORS_WHEEL_TOP_LEFT, RobotMap.ENCODER_WHEEL_TOP_LEFT);
+		topRightWheel = new MecanumWheel(RobotMap.MOTORS_WHEEL_TOP_RIGHT, RobotMap.ENCODER_WHEEL_TOP_RIGHT);
+		bottomLeftWheel = new MecanumWheel(RobotMap.MOTORS_WHEEL_BOTTOM_LEFT, RobotMap.ENCODER_WHEEL_BOTTOM_LEFT);
+		bottomRightWheel = new MecanumWheel(RobotMap.MOTORS_WHEEL_BOTTOM_RIGHT, RobotMap.ENCODER_WHEEL_BOTTOM_RIGHT);
 
 		wheels = new ArrayList<MecanumWheel>();
 		wheels.add(topLeftWheel);
@@ -57,8 +56,6 @@ public abstract class MecanumDrive extends Subsystem {
 		wheels.add(bottomRightWheel);
 		this.wheels = Collections.unmodifiableList(wheels);
 
-		this.joystick = joystick;
-		this.rotateStick = rotateStick;
 	}
 
 	private double bound(double speed) {
@@ -108,11 +105,11 @@ public abstract class MecanumDrive extends Subsystem {
 		setSpeed(new WheelSpeeds(0, 0, 0, 0));
 	}
 
-//	 public void resetEncoders() {
-//		 for(MecanumWheel wheel : wheels) {
+	 public void resetEncoders() {
+		 for(MecanumWheel wheel : wheels) {
 //			 wheel.encoder.reset();
-//		 }
-//	 }
+		 }
+	 }
 
 	public Triple<Double> getRelativeJoystick(Triple<Double> joystickValues) {
 		double x = joystickValues.first;
@@ -120,7 +117,7 @@ public abstract class MecanumDrive extends Subsystem {
 		double gyroAngle = Robot.gyro.getAngle();
 		System.out.println(gyroAngle);
 //		gyroAngle = 90 - gyroAngle;
-		// gyroAngle = (gyroAngle % 360 + 360) % 360; // normalize gyro angle
+//		gyroAngle = (gyroAngle % 360 + 360) % 360; // normalize gyro angle
 		gyroAngle *= Math.PI / 180;
 
 		double angle = x == 0 ? (Math.signum(y) * Math.PI / 2) : Math.atan(y / x);
@@ -141,7 +138,6 @@ public abstract class MecanumDrive extends Subsystem {
 		}
 
 		return new Triple<Double>(resultX, resultY, joystickValues.third);
-		// return joystickValues;
 	}
 
 	protected abstract Triple<Double> getJoystickXYZ();
@@ -150,8 +146,6 @@ public abstract class MecanumDrive extends Subsystem {
 		x *= DRIVING_SCALE;
 		y *= DRIVING_SCALE;
 		z *= TURNING_SCALE;
-		// setSpeed(y + x + z, y - x - z, y + x - z, y - x + z); //is this
-		// right? no
 		WheelSpeeds line000To100 = WheelSpeeds.add(corner000,
 				WheelSpeeds.subtract(corner100, corner000).multiply(Math.abs(x)));
 		WheelSpeeds line010To110 = WheelSpeeds.add(corner010,
@@ -175,8 +169,6 @@ public abstract class MecanumDrive extends Subsystem {
 		if (z < 0) {
 			cube = new WheelSpeeds(cube.bottomRight, cube.bottomLeft, cube.topRight, cube.topLeft);
 		}
-		
-//		cube.print();
 		
 		setSpeed(cube);
 	}
