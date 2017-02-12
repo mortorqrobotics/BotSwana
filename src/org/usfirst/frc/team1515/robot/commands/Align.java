@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1515.robot.commands;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
@@ -17,14 +16,12 @@ public class Align extends Command {
 	static final double MIN_SPEED = 0.15;
 	static final double MIN_ERROR = 0.75;
 	static final int ERROR_INCREMENT_FINISH = 2;
-	static final double FORWARD_TURN_SPEED = .01;
-	static final double FORWARD_SPEED = .1;
+	static final double FORWARD_SPEED = 0.09;
 	static final int ITERATIONS = 2;
 	
-	static final double PTURN = 0.01;
-	static final double PFORWARD = 0.0001;
-	static final double I = 0.00000;
-	//static final double D = 0.000001;
+	static final double P = 0.00000001;
+	static final double I = 0;
+	static final double D = 0;
 	
 	State state;
 	double targetAngle;
@@ -34,7 +31,6 @@ public class Align extends Command {
 	double lastError = 0;
 	int errorIncrement = 0;
 	int iterations = 0;
-	double p;
 	
     public Align() {
         requires(Robot.driveTrain);
@@ -43,11 +39,9 @@ public class Align extends Command {
     public void sendRequest() {
     	state = State.PENDING;
     	try {
-//    		BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
-//    		String res = reader.readLine();
-//    		System.out.println(res);
-//    		targetAngle = Double.parseDouble(res);
-    		targetAngle = 5;
+    		BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+    		String res = reader.readLine();
+    		targetAngle = Double.parseDouble(res);
     		gyroStartAngle = Robot.gyro.getAngle();
     		lastError = 0;
     		state = State.SUCCESS;
@@ -63,13 +57,9 @@ public class Align extends Command {
     }
 
     protected void initialize() {
-    	p = PTURN;
     	iterations = 0;
     	errorIncrement = 0;
     	sendRequest();
-    }
-
-    protected void execute() {
     }
 
     protected boolean isFinished() {
@@ -77,14 +67,16 @@ public class Align extends Command {
     		return true;
     	}
     	if (state == State.SUCCESS) {
+    		System.out.println(targetAngle);
     		double error = targetAngle - (Robot.gyro.getAngle() - gyroStartAngle);
-        	double speed = error * p  + errorSum * I;
+        	double speed = error * P + errorSum * I + (error - lastError) * D;
         	errorSum += error;
         	if (Math.abs(speed) < MIN_SPEED) {
         		speed = Math.signum(speed) * MIN_SPEED;
         	}
-//        	Robot.driveTrain.setSpeed(new WheelSpeeds(speed, -speed, speed, -speed));
-//        	Robot.driveTrain.setSpeed(new WheelSpeeds(speed, speed, speed, speed));
+        	if (iterations <= ITERATIONS) {
+        		Robot.driveTrain.setSpeed(new WheelSpeeds(speed, -speed, speed, -speed));
+        	}
         	if (Math.abs(error) <= MIN_ERROR && lastError > MIN_ERROR) {
         		errorIncrement++;
         	}
@@ -95,13 +87,12 @@ public class Align extends Command {
 	        		end();
 	        		sendRequest();
         		} else if (iterations >= ITERATIONS) {
-        			p = PFORWARD;
+        			iterations++;
+        			Robot.driveTrain.setSpeed(new WheelSpeeds(0.09, 0.09, 0.09, 0.09));
         		}
-        	//	return true;
         	}
     	}
     	return !Robot.limitSwitch.get();
-    	//return false;
     }
 
     protected void end() {
