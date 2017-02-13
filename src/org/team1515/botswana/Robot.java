@@ -2,7 +2,7 @@
 package org.team1515.botswana;
 
 import org.team1515.botswana.subsystems.GearHolder;
-import org.team1515.botswana.subsystems.Intake;
+
 import org.team1515.botswana.subsystems.KliveDrive;
 import org.team1515.botswana.subsystems.MecanumDrive;
 import org.team1515.botswana.subsystems.Shooter;
@@ -23,7 +23,6 @@ public class Robot extends IterativeRobot {
 	public static Joystick secondStick = new Joystick(Controls.JOYSTICK_SECONDARY);
 
 	public static final MecanumDrive driveTrain = new KliveDrive();
-	public static final Intake intake = new Intake();
 	public static final GearHolder gearHolder = new GearHolder();
 	public static final Winch winch = new Winch();
 	public static final Shooter shooter = new Shooter();

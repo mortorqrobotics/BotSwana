@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ActivateIntake extends Command {
 	
 	public ActivateIntake() {
-		requires(Robot.intake);
+		requires(Robot.shooter);
 	}
 	
 	@Override
 	protected void initialize() {
-		Robot.intake.start();
+		Robot.shooter.intake();
 	}
 	
 	@Override
@@ -22,7 +22,7 @@ public class ActivateIntake extends Command {
 
 	@Override
 	protected void end() {
-		Robot.intake.stop();
+		Robot.shooter.stop();
 	}
 	
 	@Override
