@@ -21,8 +21,7 @@ public class RobotMap {
 	
 	public static final int[] MOTORS_INTAKE = {1};
 	public static final int[] MOTORS_WINCH = {2};
-	public static final int[] MOTORS_TOP_SHOOTER = {3, 99};
-	public static final int[] MOTORS_BOTTOM_FRONT_SHOOTER = {4};
-	public static final int[] MOTORS_BOTTOM_BACK_SHOOTER = {5};
+	public static final int[] MOTORS_FRONT_SHOOTER = {99,1000,1001};
+	public static final int[] MOTORS_BACK_SHOOTER = {2017};
 
 }

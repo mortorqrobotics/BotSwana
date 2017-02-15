@@ -7,34 +7,29 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem {
 	
-	MotorModule topMotors;
-	MotorModule bottomFrontMotors;
-	MotorModule bottomBackMotors;
+	MotorModule frontMotors;
+	MotorModule backMotors;
 	
 	private static final double SPEED = 1;
 	
 	public Shooter() {
-		topMotors = new MotorModule(RobotMap.MOTORS_TOP_SHOOTER);
-		bottomFrontMotors = new MotorModule(RobotMap.MOTORS_BOTTOM_FRONT_SHOOTER);
-		bottomBackMotors = new MotorModule(RobotMap.MOTORS_BOTTOM_BACK_SHOOTER);
+		frontMotors = new MotorModule(RobotMap.MOTORS_FRONT_SHOOTER);
+		backMotors = new MotorModule(RobotMap.MOTORS_BACK_SHOOTER);
 	}
 	
 	public void shoot() {
-		topMotors.setSpeed(SPEED);
-		bottomFrontMotors.setSpeed(SPEED);
-		bottomBackMotors.setSpeed(SPEED);
+		frontMotors.setSpeed(SPEED);
+		backMotors.setSpeed(SPEED);
 	}
 	
 	public void intake() {
-		topMotors.stop();
-		bottomFrontMotors.setSpeed(SPEED);
-		bottomBackMotors.setSpeed(-SPEED);
+		frontMotors.setSpeed(SPEED);
+		backMotors.setSpeed(-SPEED);
 	}
 
 	public void stop() {
-		topMotors.stop();
-		bottomFrontMotors.stop();
-		bottomBackMotors.stop();
+		frontMotors.stop();
+		backMotors.stop();
 	}
 
 	@Override
