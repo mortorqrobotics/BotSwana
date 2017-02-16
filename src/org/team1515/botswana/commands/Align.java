@@ -26,6 +26,7 @@ public class Align extends Command {
 	State state;
 	double targetAngle;
 	double gyroStartAngle;
+	boolean usingVision;
 	
 	double errorSum;
 	double lastError = 0;
@@ -34,24 +35,33 @@ public class Align extends Command {
 	
     public Align() {
         requires(Robot.driveTrain);
+        this.usingVision = true;
+    }
+    
+    public Align(double targetAngle) {
+    	requires(Robot.driveTrain);
+    	this.targetAngle = targetAngle; 
+    	this.usingVision = false;
     }
     
     private void sendRequest() {
     	state = State.PENDING;
-    	try {
-    		BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
-    		String res = reader.readLine();
-    		targetAngle = Double.parseDouble(res);
-    		gyroStartAngle = Robot.gyro.getAngle();
-    		lastError = 0;
-    		state = State.SUCCESS;
-    	} catch (NumberFormatException ex) {
-    		state = State.FAILURE;
-    		System.out.println("No tape found.");
-    	} catch (Exception ex) {
-    		state = State.FAILURE;
-    		System.out.println("Server error");
-    		ex.printStackTrace();
+    	if (usingVision) {
+    		try {
+    			BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
+    			String res = reader.readLine();
+    			targetAngle = Double.parseDouble(res);
+    			gyroStartAngle = Robot.gyro.getAngle();
+    			lastError = 0;
+    			state = State.SUCCESS;
+    		} catch (NumberFormatException ex) {
+    			state = State.FAILURE;
+    			System.out.println("No tape found.");
+    		} catch (Exception ex) {
+    			state = State.FAILURE;
+    			System.out.println("Server error");
+    			ex.printStackTrace();
+    		}
     	}
     }
 
@@ -59,11 +69,18 @@ public class Align extends Command {
     	iterations = 0;
     	errorIncrement = 0;
     	sendRequest();
+    	
+    	if (!usingVision) {
+    		iterations = ITERATIONS - 1;
+    	}
     }
 
     protected boolean isFinished() {
     	if (state == State.FAILURE) {
-    		return true;
+    		if (iterations < 1) {
+    			return true;
+    		}
+    		Robot.driveTrain.moveForward(FORWARD_SPEED); 
     	}
     	if (state == State.SUCCESS) {
     		System.out.println(targetAngle);

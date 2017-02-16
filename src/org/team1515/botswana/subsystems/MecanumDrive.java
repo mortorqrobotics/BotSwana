@@ -80,6 +80,13 @@ public abstract class MecanumDrive extends Subsystem {
 	public void moveForward(double speed) {
 		setSpeed(new WheelSpeeds(speed, speed, speed, speed));
 	}
+	
+	public void moveForwardDistance(double distance) {
+		topLeftWheel.goDistance(distance);
+		topRightWheel.goDistance(distance);
+		bottomLeftWheel.goDistance(distance);
+		bottomRightWheel.goDistance(distance);
+	}
 
 	public void moveBackward(double speed) {
 		setSpeed(new WheelSpeeds(-speed, -speed, -speed, -speed));
@@ -107,8 +114,16 @@ public abstract class MecanumDrive extends Subsystem {
 
 	 public void resetEncoders() {
 		 for(MecanumWheel wheel : wheels) {
-//			 wheel.encoder.reset();
+			 wheel.encoder.reset();
+			 wheel.distanceSum = 0;
 		 }
+	 }
+	 
+	 public boolean onDistanceTarget(double errorRange) {
+		return (topLeftWheel.onDistanceTarget(errorRange)
+				&& topRightWheel.onDistanceTarget(errorRange)
+				&& bottomLeftWheel.onDistanceTarget(errorRange)
+				&& bottomRightWheel.onDistanceTarget(errorRange));
 	 }
 
 	public Triple<Double> getRelativeJoystick(Triple<Double> joystickValues) {

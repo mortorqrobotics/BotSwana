@@ -3,6 +3,7 @@ package org.team1515.botswana.subsystems;
 import org.team1515.botswana.util.MotorModule;
 import org.team1515.botswana.util.Pair;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumWheel {
@@ -16,17 +17,25 @@ public class MecanumWheel {
 	public double lastSpeed = 0;
 	public double errorSum = 0;
 	public double lastError = 0;
+	double lastEncoderPosition = 0;
+	double distanceSum = 0;
+	double distanceError;
+	
 	public static final double ACCELERATION_LIMIT = 0.1;
+	public static final int ENCODER_TICKS_PER_REVOLUTION = 2*4*2*4*2*4;
+	public static final double WHEEL_CIRCUMFERENCE = 3.14;
+	
+	public Encoder encoder;
 
 	public MecanumWheel(int[] motorPorts, Pair<Integer> encoderPorts) {
 		motor = new MotorModule(motorPorts);
 
-//		encoder = new Encoder(encoderPort1, encoderPort2, true, Encoder.EncodingType.k4X);
-//		encoder.setMaxPeriod(.05);
-//		encoder.setMinRate(10);
-//		encoder.setDistancePerPulse(1);
-//		encoder.setSamplesToAverage(10);
-//		encoder.reset();
+		encoder = new Encoder(encoderPorts.first, encoderPorts.last, true, Encoder.EncodingType.k4X);
+		encoder.setMaxPeriod(.05);
+		encoder.setMinRate(10);
+		encoder.setDistancePerPulse(1);
+		encoder.setSamplesToAverage(10);
+		encoder.reset();
 
 	}
 
@@ -48,10 +57,24 @@ public class MecanumWheel {
 		motor.setSpeed(speed);
 //		lastSpeed = speed;
 //		lastError = error;
-	}	
-//
+	}
+	
+	public void goDistance(double distance) {
+		double ticks = (distance * ENCODER_TICKS_PER_REVOLUTION / WHEEL_CIRCUMFERENCE);
+		distanceSum += encoder.get() - lastEncoderPosition; 
+		double error = ticks - distanceSum;
+		distanceError = error;
+		double speed = p * error;
+		motor.setSpeed(speed);
+		lastEncoderPosition = encoder.get();
+	}
+	
+	public boolean onDistanceTarget(double errorRange) {
+		return distanceError < errorRange && distanceError > -errorRange;
+	}
+
 	private double limitAccel(double speed) {
-		double difference = speed - lastSpeed;
+		 double difference = speed - lastSpeed;
 		double sign = Math.signum(difference);
 		if (Math.abs(difference) > ACCELERATION_LIMIT) {
 			speed = lastSpeed + ACCELERATION_LIMIT * sign;
