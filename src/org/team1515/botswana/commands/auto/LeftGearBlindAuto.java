@@ -1,6 +1,8 @@
 package org.team1515.botswana.commands.auto;
 
-import org.team1515.botswana.commands.Align;
+import org.team1515.botswana.commands.DriveForwardDistance;
+import org.team1515.botswana.commands.DriveForwardLimitSwitch;
+import org.team1515.botswana.commands.TurnAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -11,8 +13,8 @@ public class LeftGearBlindAuto extends CommandGroup {
 	static final double ANGLE = 30;
 	
 	public LeftGearBlindAuto() {
-		addSequential(new DriveForwardAuto(SPEED, DISTANCE));
-		addSequential(new Align(ANGLE));
-		addSequential(new ForwardGearBlindAuto());
+		addSequential(new DriveForwardDistance(DISTANCE));
+		addSequential(new TurnAngle(ANGLE));
+		addSequential(new DriveForwardLimitSwitch(SPEED));
 	}
 }

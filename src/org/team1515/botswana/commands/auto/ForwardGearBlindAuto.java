@@ -1,34 +1,15 @@
 package org.team1515.botswana.commands.auto;
 
-import org.team1515.botswana.Robot;
+import org.team1515.botswana.commands.DriveForwardLimitSwitch;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class ForwardGearBlindAuto extends Command {
+public class ForwardGearBlindAuto extends CommandGroup {
 	
 	static final double SPEED = 1;
 	
 	public ForwardGearBlindAuto() {
-		requires(Robot.driveTrain);
+		addSequential(new DriveForwardLimitSwitch(SPEED));
 	}
 	
-	@Override
-	protected void execute() {
-		Robot.driveTrain.moveForward(SPEED);
-	}
-	
-	@Override
-	protected boolean isFinished() {
-		return !Robot.limitSwitch.get();
-	}
-	
-	@Override
-	protected void end() {
-		Robot.driveTrain.stop();
-	}
-	
-	@Override
-	protected void interrupted() {
-		end();
-	}
 }

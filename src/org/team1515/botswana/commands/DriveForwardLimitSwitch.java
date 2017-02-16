@@ -4,18 +4,25 @@ import org.team1515.botswana.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class JoystickDrive extends Command {
+public class DriveForwardLimitSwitch extends Command {
+	
+	double speed;
 
-    public JoystickDrive() {
+    public DriveForwardLimitSwitch(double speed) {
     	requires(Robot.driveTrain);
+    	this.speed = speed;
     }
 
     protected void execute() {
-    	Robot.driveTrain.drive();
+    	Robot.driveTrain.moveForward(speed);
     }
 
     protected boolean isFinished() {
-        return false;
+        return !Robot.limitSwitch.get();
+    }
+
+    protected void end() {
+    	Robot.driveTrain.stop();
     }
 
     protected void interrupted() {

@@ -11,7 +11,7 @@ public class MecanumWheel {
 	public final MotorModule motor;
 
 	private double p = 0.5;
-	private double i = 0.00000;
+	private double i = 0.0;
 	private double d = 0.0;
 
 	public double lastSpeed = 0;
@@ -60,13 +60,13 @@ public class MecanumWheel {
 	}
 	
 	public void goDistance(double distance) {
+		int encoderPosition = encoder.get();
 		double ticks = (distance * ENCODER_TICKS_PER_REVOLUTION / WHEEL_CIRCUMFERENCE);
-		distanceSum += encoder.get() - lastEncoderPosition; 
-		double error = ticks - distanceSum;
-		distanceError = error;
-		double speed = p * error;
+		distanceSum += encoderPosition - lastEncoderPosition; 
+		distanceError = ticks - distanceSum;
+		double speed = p * distanceError;
 		motor.setSpeed(speed);
-		lastEncoderPosition = encoder.get();
+		lastEncoderPosition = encoderPosition;
 	}
 	
 	public boolean onDistanceTarget(double errorRange) {
