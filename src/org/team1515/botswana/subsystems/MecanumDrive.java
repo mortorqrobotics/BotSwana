@@ -76,16 +76,31 @@ public abstract class MecanumDrive extends Subsystem {
 		bottomLeftWheel.setSpeed(-bound(speeds.bottomLeft * factor));
 		bottomRightWheel.setSpeed(bound(speeds.bottomRight) * factor);
 	}
-
+	
+	public void initializeDistancePID(double distanceTarget) {
+		for (MecanumWheel wheel : wheels) {
+			wheel.itializeDistancePID(distanceTarget);
+		}
+	}
+	
+	public boolean onDistanceTarget() {
+		for (MecanumWheel wheel : wheels) {
+			return wheel.onDistanceTarget();
+		}
+		return true;
+	}
+	
+	public WheelSpeeds getDistancePID() {
+		return new WheelSpeeds(
+			topLeftWheel.getDistanceError(), 
+			topRightWheel.getDistanceError(), 
+			bottomLeftWheel.getDistanceError(), 
+			bottomRightWheel.getDistanceError()
+		);
+	}
+	
 	public void moveForward(double speed) {
 		setSpeed(new WheelSpeeds(speed, speed, speed, speed));
-	}
-
-	public void moveForwardDistance(double distance) {
-		topLeftWheel.goDistance(distance);
-		topRightWheel.goDistance(distance);
-		bottomLeftWheel.goDistance(distance);
-		bottomRightWheel.goDistance(distance);
 	}
 
 	public void moveBackward(double speed) {
@@ -115,15 +130,7 @@ public abstract class MecanumDrive extends Subsystem {
 	public void resetEncoders() {
 		for(MecanumWheel wheel : wheels) {
 			wheel.encoder.reset();
-			wheel.distanceSum = 0;
 		}
-	}
-
-	public boolean onDistanceTarget(double errorRange) {
-		return (topLeftWheel.onDistanceTarget(errorRange)
-				&& topRightWheel.onDistanceTarget(errorRange)
-				&& bottomLeftWheel.onDistanceTarget(errorRange)
-				&& bottomRightWheel.onDistanceTarget(errorRange));
 	}
 
 	public Triple<Double> getRelativeJoystick(Triple<Double> joystickValues) {

@@ -8,22 +8,28 @@ public class DriveForwardDistance extends Command {
 
 	double distance;
 
-	static final double ERROR_RANGE = 0.5;
-
 	public DriveForwardDistance(double distance) {
 		requires(Robot.driveTrain);
 		this.distance = distance;
 	}
+	
+	@Override
+	protected void initialize() {
+		Robot.driveTrain.initializeDistancePID(distance);
+	}
+	
+	@Override
+	protected void execute() {
+		Robot.driveTrain.setSpeed(Robot.driveTrain.getDistancePID());
+	}
 
 	@Override
 	protected boolean isFinished() {
-		Robot.driveTrain.moveForwardDistance(distance);
-		return Robot.driveTrain.onDistanceTarget(ERROR_RANGE);
+		return Robot.driveTrain.onDistanceTarget();
 	}
 
 	@Override
 	protected void end() {
-		Robot.driveTrain.resetEncoders();
 		Robot.driveTrain.stop();
 	}
 

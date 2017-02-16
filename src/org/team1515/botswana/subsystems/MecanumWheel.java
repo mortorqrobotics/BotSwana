@@ -1,5 +1,6 @@
 package org.team1515.botswana.subsystems;
 
+import org.team1515.botswana.util.DistancePIDController;
 import org.team1515.botswana.util.MotorModule;
 import org.team1515.botswana.util.Pair;
 
@@ -17,16 +18,13 @@ public class MecanumWheel {
 	public double lastSpeed = 0;
 	public double errorSum = 0;
 	public double lastError = 0;
-	double lastEncoderPosition = 0;
-	double distanceSum = 0;
-	double distanceError;
 
 	public static final double ACCELERATION_LIMIT = 0.1;
-	public static final int ENCODER_TICKS_PER_REVOLUTION = 2*4*2*4*2*4;
-	public static final double WHEEL_CIRCUMFERENCE = 3.14;
 
 	public Encoder encoder;
+	private DistancePIDController distancePIDController;
 
+	double lastEncoderPosition = 0;
 	public MecanumWheel(int[] motorPorts, Pair<Integer> encoderPorts) {
 		motor = new MotorModule(motorPorts);
 
@@ -36,7 +34,8 @@ public class MecanumWheel {
 		encoder.setDistancePerPulse(1);
 		encoder.setSamplesToAverage(10);
 		encoder.reset();
-
+		
+		distancePIDController = new DistancePIDController(encoder);
 	}
 
 	public void updatePid() {
@@ -58,21 +57,7 @@ public class MecanumWheel {
 //		lastSpeed = speed;
 //		lastError = error;
 	}
-
-	public void goDistance(double distance) {
-		int encoderPosition = encoder.get();
-		double ticks = (distance * ENCODER_TICKS_PER_REVOLUTION / WHEEL_CIRCUMFERENCE);
-		distanceSum += encoderPosition - lastEncoderPosition; 
-		distanceError = ticks - distanceSum;
-		double speed = p * distanceError;
-		motor.setSpeed(speed);
-		lastEncoderPosition = encoderPosition;
-	}
-
-	public boolean onDistanceTarget(double errorRange) {
-		return distanceError < errorRange && distanceError > -errorRange;
-	}
-
+	
 	private double limitAccel(double speed) {
 		double difference = speed - lastSpeed;
 		double sign = Math.signum(difference);
@@ -80,5 +65,17 @@ public class MecanumWheel {
 			speed = lastSpeed + ACCELERATION_LIMIT * sign;
 		}
 		return speed;
+	}
+	
+	public void itializeDistancePID(double distanceTarget) {
+		distancePIDController.initialize(distanceTarget);
+	}
+	
+	public boolean onDistanceTarget() {
+		return distancePIDController.onTarget();
+	}
+	
+	public double getDistanceError() {
+		return distancePIDController.get();
 	}
 }
