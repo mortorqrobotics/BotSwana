@@ -5,11 +5,11 @@ import org.team1515.botswana.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class OpenGearHolder extends Command {
-	
+
 	public OpenGearHolder() {
 		requires(Robot.gearHolder);
 	}
-	
+
 	@Override
 	protected void initialize() {
 		Robot.gearHolder.open();
@@ -19,12 +19,12 @@ public class OpenGearHolder extends Command {
 	protected boolean isFinished() {
 		return false;
 	}
-	
+
 	@Override
 	protected void end() {
 		Robot.gearHolder.close();
 	}
-	
+
 	@Override
 	protected void interrupted() {
 		end();

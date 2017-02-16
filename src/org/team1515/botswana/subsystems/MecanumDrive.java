@@ -80,7 +80,7 @@ public abstract class MecanumDrive extends Subsystem {
 	public void moveForward(double speed) {
 		setSpeed(new WheelSpeeds(speed, speed, speed, speed));
 	}
-	
+
 	public void moveForwardDistance(double distance) {
 		topLeftWheel.goDistance(distance);
 		topRightWheel.goDistance(distance);
@@ -112,19 +112,19 @@ public abstract class MecanumDrive extends Subsystem {
 		setSpeed(new WheelSpeeds(0, 0, 0, 0));
 	}
 
-	 public void resetEncoders() {
-		 for(MecanumWheel wheel : wheels) {
-			 wheel.encoder.reset();
-			 wheel.distanceSum = 0;
-		 }
-	 }
-	 
-	 public boolean onDistanceTarget(double errorRange) {
+	public void resetEncoders() {
+		for(MecanumWheel wheel : wheels) {
+			wheel.encoder.reset();
+			wheel.distanceSum = 0;
+		}
+	}
+
+	public boolean onDistanceTarget(double errorRange) {
 		return (topLeftWheel.onDistanceTarget(errorRange)
 				&& topRightWheel.onDistanceTarget(errorRange)
 				&& bottomLeftWheel.onDistanceTarget(errorRange)
 				&& bottomRightWheel.onDistanceTarget(errorRange));
-	 }
+	}
 
 	public Triple<Double> getRelativeJoystick(Triple<Double> joystickValues) {
 		double x = joystickValues.first;
@@ -184,7 +184,7 @@ public abstract class MecanumDrive extends Subsystem {
 		if (z < 0) {
 			cube = new WheelSpeeds(cube.bottomRight, cube.bottomLeft, cube.topRight, cube.topLeft);
 		}
-		
+
 		setSpeed(cube);
 	}
 
@@ -197,5 +197,5 @@ public abstract class MecanumDrive extends Subsystem {
 		c = SmartDashboard.getNumber("c", 1.0);
 		d = SmartDashboard.getNumber("d", 1.0);
 	}
-	
+
 }

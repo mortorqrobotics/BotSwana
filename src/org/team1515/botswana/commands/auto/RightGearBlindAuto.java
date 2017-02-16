@@ -7,7 +7,7 @@ import org.team1515.botswana.commands.TurnAngle;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class RightGearBlindAuto extends CommandGroup {
-	
+
 	static final double DISTANCE = 133;
 	static final double SPEED = 133;
 	static final double ANGLE = -30;

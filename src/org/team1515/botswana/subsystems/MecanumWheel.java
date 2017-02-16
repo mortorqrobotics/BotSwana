@@ -20,11 +20,11 @@ public class MecanumWheel {
 	double lastEncoderPosition = 0;
 	double distanceSum = 0;
 	double distanceError;
-	
+
 	public static final double ACCELERATION_LIMIT = 0.1;
 	public static final int ENCODER_TICKS_PER_REVOLUTION = 2*4*2*4*2*4;
 	public static final double WHEEL_CIRCUMFERENCE = 3.14;
-	
+
 	public Encoder encoder;
 
 	public MecanumWheel(int[] motorPorts, Pair<Integer> encoderPorts) {
@@ -58,7 +58,7 @@ public class MecanumWheel {
 //		lastSpeed = speed;
 //		lastError = error;
 	}
-	
+
 	public void goDistance(double distance) {
 		int encoderPosition = encoder.get();
 		double ticks = (distance * ENCODER_TICKS_PER_REVOLUTION / WHEEL_CIRCUMFERENCE);
@@ -68,13 +68,13 @@ public class MecanumWheel {
 		motor.setSpeed(speed);
 		lastEncoderPosition = encoderPosition;
 	}
-	
+
 	public boolean onDistanceTarget(double errorRange) {
 		return distanceError < errorRange && distanceError > -errorRange;
 	}
 
 	private double limitAccel(double speed) {
-		 double difference = speed - lastSpeed;
+		double difference = speed - lastSpeed;
 		double sign = Math.signum(difference);
 		if (Math.abs(difference) > ACCELERATION_LIMIT) {
 			speed = lastSpeed + ACCELERATION_LIMIT * sign;

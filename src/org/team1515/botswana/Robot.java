@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 
 	public static final Gyro gyro = new ADXRS450_Gyro();
 	public static final DigitalInput limitSwitch = new DigitalInput(0);
-	
+
 	@Override
 	public void robotInit() {
 		oi = new OI();

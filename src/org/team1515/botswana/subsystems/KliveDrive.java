@@ -11,7 +11,7 @@ public class KliveDrive extends MecanumDrive {
 		double x = Robot.driveStick.getRawAxis(Controls.AXIS_SIDE);
 		double y = -Robot.driveStick.getRawAxis(Controls.AXIS_FORWARD);
 		double z = Robot.driveStick.getRawAxis(Controls.AXIS_TWIST);
-		
+
 		if(Math.abs(x) <= DEAD_BAND) {
 			x = 0.0;
 		}
@@ -25,7 +25,7 @@ public class KliveDrive extends MecanumDrive {
 		x *= getThrottle();
 		y *= getThrottle();
 		z *= getThrottle();
-		
+
 		return new Triple<Double>(x, y, z);
 	}
 

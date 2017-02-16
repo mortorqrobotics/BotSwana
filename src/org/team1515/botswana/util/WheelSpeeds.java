@@ -35,7 +35,7 @@ public class WheelSpeeds {
 			subtractee.bottomRight - subtracter.bottomRight
 		);
 	}
-	
+
 	public void print() {
 		System.out.print(topLeft + "\t");
 		System.out.print(topRight + "\t");
