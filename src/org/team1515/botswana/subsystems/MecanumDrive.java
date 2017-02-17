@@ -85,7 +85,9 @@ public abstract class MecanumDrive extends Subsystem {
 	
 	public boolean onDistanceTarget() {
 		for (MecanumWheel wheel : wheels) {
-			return wheel.onDistanceTarget();
+			if (!wheel.onDistanceTarget()) {
+				return false;
+			}
 		}
 		return true;
 	}
