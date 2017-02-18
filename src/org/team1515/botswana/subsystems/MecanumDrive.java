@@ -37,11 +37,10 @@ public abstract class MecanumDrive extends Subsystem {
 	protected MecanumWheel topRightWheel;
 	protected MecanumWheel bottomLeftWheel;
 	protected MecanumWheel bottomRightWheel;
+	
+	boolean isReversed;
 
 	protected List<MecanumWheel> wheels;
-
-	protected Joystick joystick;
-	protected Joystick rotateStick;
 
 	public MecanumDrive() {
 		topLeftWheel = new MecanumWheel(RobotMap.MOTORS_WHEEL_TOP_LEFT, RobotMap.ENCODER_WHEEL_TOP_LEFT);
@@ -55,6 +54,8 @@ public abstract class MecanumDrive extends Subsystem {
 		wheels.add(bottomLeftWheel);
 		wheels.add(bottomRightWheel);
 		this.wheels = Collections.unmodifiableList(wheels);
+		
+		isReversed = false;
 
 	}
 
@@ -69,7 +70,7 @@ public abstract class MecanumDrive extends Subsystem {
 	}
 
 	public void setSpeed(WheelSpeeds speeds) {
-//		speeds.print();
+		speeds.print();
 		double factor = 1; // set to -1 to reverse wheelsG
 		topLeftWheel.setSpeed(-bound(speeds.topLeft) * factor);
 		topRightWheel.setSpeed(bound(speeds.topRight * factor));
@@ -90,6 +91,10 @@ public abstract class MecanumDrive extends Subsystem {
 			}
 		}
 		return true;
+	}
+	
+	public void reverse() {
+		isReversed = !isReversed;
 	}
 	
 	public WheelSpeeds getDistancePID() {
@@ -200,7 +205,8 @@ public abstract class MecanumDrive extends Subsystem {
 	public void drive() {
 		Triple<Double> triple = getJoystickXYZ();
 //		triple = getRelativeJoystick(triple);
-		setXYZ(triple.first, triple.second, triple.third);
+		double reverseFactor = isReversed ? -1 : 1;
+		setXYZ(reverseFactor * triple.first, reverseFactor * triple.second, triple.third);
 		a = SmartDashboard.getNumber("a", 0.0);
 		b = SmartDashboard.getNumber("b", 1.0);
 		c = SmartDashboard.getNumber("c", 1.0);

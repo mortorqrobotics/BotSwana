@@ -10,10 +10,11 @@ public class Controls {
 	public static final int AXIS_TWIST = 5;
 	public static final int AXIS_THROTTLE = 2;
 
-	public static final int BUTTON_ALIGN = 1;
-	public static final int BUTTON_INTAKE = 100;
-	public static final int BUTTON_LIFT = 2323423;
-	public static final int BUTTON_SHOOT = 121212121;
-	public static final int BUTTON_STOP_ALIGN = 3715;
+	public static final int BUTTON_ALIGN = 7;
+	public static final int BUTTON_INTAKE = 2;
+	public static final int BUTTON_LIFT = 3;
+	public static final int BUTTON_SHOOT = 4;
+	public static final int BUTTON_STOP_ALIGN = 6;
+	public static final int OPEN_GEAR_HOLDER = 1;
 
 }

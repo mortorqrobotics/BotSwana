@@ -4,9 +4,9 @@ import org.team1515.botswana.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class OpenGearHolder extends Command {
+public class ToggleGearHolder extends Command {
 
-	public OpenGearHolder() {
+	public ToggleGearHolder() {
 		requires(Robot.gearHolder);
 	}
 

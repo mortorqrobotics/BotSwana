@@ -8,22 +8,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearHolder extends Subsystem {
 
-	DoubleSolenoid solenoid1;
-	DoubleSolenoid solenoid2;
+	DoubleSolenoid solenoid;
 
 	public GearHolder() {
-		solenoid1 = new DoubleSolenoid(RobotMap.PCM, RobotMap.SOLENOID_GEAR_HOLDER_1.first, RobotMap.SOLENOID_GEAR_HOLDER_1.last);
-		solenoid2 = new DoubleSolenoid(RobotMap.PCM, RobotMap.SOLENOID_GEAR_HOLDER_2.first, RobotMap.SOLENOID_GEAR_HOLDER_2.last);
+		solenoid = new DoubleSolenoid(RobotMap.PCM, RobotMap.SOLENOID_GEAR_HOLDER.first, RobotMap.SOLENOID_GEAR_HOLDER.last);
 	}
 
 	public void open() {
-		solenoid1.set(Value.kForward);
-		solenoid2.set(Value.kForward);
+		solenoid.set(Value.kForward);
 	}
 
 	public void close() {
-		solenoid1.set(Value.kReverse);
-		solenoid2.set(Value.kReverse);
+		solenoid.set(Value.kReverse);
 	}
 
 	@Override

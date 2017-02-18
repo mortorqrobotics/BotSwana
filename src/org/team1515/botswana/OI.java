@@ -1,8 +1,10 @@
 package org.team1515.botswana;
 
+import org.team1515.botswana.commands.ActionCommand;
 import org.team1515.botswana.commands.ActivateIntake;
 import org.team1515.botswana.commands.Align;
 import org.team1515.botswana.commands.Shoot;
+import org.team1515.botswana.commands.ToggleGearHolder;
 import org.team1515.botswana.commands.WinchLift;
 
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -29,6 +31,14 @@ public class OI {
 
 		Button shoot = new JoystickButton(Robot.secondStick, Controls.BUTTON_SHOOT);
 		shoot.whenPressed(new Shoot());
+		
+		Button openGearHolder = new JoystickButton(Robot.secondStick, Controls.OPEN_GEAR_HOLDER);
+		openGearHolder.whileHeld(new ToggleGearHolder());
+		
+		Button reverseDrive = new JoystickButton(Robot.driveStick, 4);
+		reverseDrive.whenPressed(new ActionCommand(() -> {
+			Robot.driveTrain.reverse();
+		}));
 
 	}
 

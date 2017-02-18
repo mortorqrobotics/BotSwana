@@ -30,7 +30,7 @@ public class KliveDrive extends MecanumDrive {
 	}
 
 	protected double getThrottle() {
-		return (-joystick.getRawAxis(Controls.AXIS_THROTTLE) + 1) / 2;
+		return (-Robot.driveStick.getRawAxis(Controls.AXIS_THROTTLE) + 1) / 2;
 	}
 
 	@Override
