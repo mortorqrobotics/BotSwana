@@ -71,11 +71,10 @@ public abstract class MecanumDrive extends Subsystem {
 
 	public void setSpeed(WheelSpeeds speeds) {
 		speeds.print();
-		double factor = 1; // set to -1 to reverse wheelsG
-		topLeftWheel.setSpeed(-bound(speeds.topLeft) * factor);
-		topRightWheel.setSpeed(bound(speeds.topRight * factor));
-		bottomLeftWheel.setSpeed(-bound(speeds.bottomLeft * factor));
-		bottomRightWheel.setSpeed(bound(speeds.bottomRight) * factor);
+		topLeftWheel.setSpeed(-bound(speeds.topLeft));
+		topRightWheel.setSpeed(bound(speeds.topRight));
+		bottomLeftWheel.setSpeed(-bound(speeds.bottomLeft));
+		bottomRightWheel.setSpeed(bound(speeds.bottomRight));
 	}
 	
 	public void initializeDistancePID(double distanceTarget) {
