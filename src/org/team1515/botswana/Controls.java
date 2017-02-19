@@ -25,6 +25,6 @@ public class Controls {
 //	public static final Button ALIGN = 7;
 //	public static final Button LIFT = 3;
 //	public static final Button STOP_ALIGN = 6;
-//	public static final Button TEST = new JoystickButton(Robot.secondStick, 90);
+	public static final Button TEST = new JoystickButton(Robot.secondStick, 90);
 
 }
