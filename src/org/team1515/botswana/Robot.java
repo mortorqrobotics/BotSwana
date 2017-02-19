@@ -7,9 +7,8 @@ import org.team1515.botswana.subsystems.MecanumDrive;
 import org.team1515.botswana.subsystems.Shooter;
 import org.team1515.botswana.subsystems.Winch;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -28,17 +27,17 @@ public class Robot extends IterativeRobot {
 	public static final Shooter shooter = new Shooter();
 
 	public static final Gyro gyro = new ADXRS450_Gyro();
-	public static final DigitalInput limitSwitch = new DigitalInput(0);
+	public static final DigitalInput limitSwitch = new DigitalInput(RobotMap.LIMIT_SWITCH);
 
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+//		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override
 	public void disabledInit() {
-
+		Robot.driveTrain.resetPID();
 	}
 
 	@Override
@@ -60,9 +59,13 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 	}
 
+	BuiltInAccelerometer acceler = new BuiltInAccelerometer();
+	
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		System.out.println(acceler.getX() + "\t" + acceler.getY() + "\t" + acceler.getZ());
 	}
 
 	@Override

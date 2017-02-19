@@ -12,22 +12,12 @@ public class ToggleGearHolder extends Command {
 
 	@Override
 	protected void initialize() {
-		Robot.gearHolder.open();
+		Robot.gearHolder.toggle();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return false;
-	}
-
-	@Override
-	protected void end() {
-		Robot.gearHolder.close();
-	}
-
-	@Override
-	protected void interrupted() {
-		end();
+		return true;
 	}
 
 }

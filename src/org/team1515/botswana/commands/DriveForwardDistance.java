@@ -25,7 +25,7 @@ public class DriveForwardDistance extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.driveTrain.onDistanceTarget();
+		return Robot.driveTrain.isOnDistanceTarget();
 	}
 
 	@Override

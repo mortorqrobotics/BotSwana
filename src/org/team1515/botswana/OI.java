@@ -15,28 +15,24 @@ public class OI {
 
 	public OI() {
 
-		Command alignCommand = new Align();
+//		Command alignCommand = new Align();
+//
+//		Button align = new JoystickButton(Robot.secondStick, Controls.BUTTON_ALIGN);
+//		align.whenPressed(alignCommand);
+//
+//		Button stopAlign = new JoystickButton(Robot.secondStick, Controls.BUTTON_STOP_ALIGN);
+//		stopAlign.cancelWhenPressed(alignCommand);
 
-		Button align = new JoystickButton(Robot.secondStick, Controls.BUTTON_ALIGN);
-		align.whenPressed(alignCommand);
+//		Button lift = new JoystickButton(Robot.secondStick, Controls.BUTTON_LIFT);
+//		lift.whenPressed(new WinchLift());
 
-		Button stopAlign = new JoystickButton(Robot.secondStick, Controls.BUTTON_STOP_ALIGN);
-		stopAlign.cancelWhenPressed(alignCommand);
+		Controls.INTAKE.whileHeld(new ActivateIntake());
 
-		Button intake = new JoystickButton(Robot.secondStick, Controls.BUTTON_INTAKE);
-		intake.whileHeld(new ActivateIntake());
-
-		Button lift = new JoystickButton(Robot.secondStick, Controls.BUTTON_LIFT);
-		lift.whenPressed(new WinchLift());
-
-		Button shoot = new JoystickButton(Robot.secondStick, Controls.BUTTON_SHOOT);
-		shoot.whenPressed(new Shoot());
+		Controls.SHOOT.whileHeld(new Shoot());
 		
-		Button openGearHolder = new JoystickButton(Robot.secondStick, Controls.OPEN_GEAR_HOLDER);
-		openGearHolder.whileHeld(new ToggleGearHolder());
+		Controls.TOGGLE_GEAR_HOLDER.whenPressed(new ToggleGearHolder());
 		
-		Button reverseDrive = new JoystickButton(Robot.driveStick, 4);
-		reverseDrive.whenPressed(new ActionCommand(() -> {
+		Controls.REVERSE.whenPressed(new ActionCommand(() -> {
 			Robot.driveTrain.reverse();
 		}));
 

@@ -9,7 +9,6 @@ import org.team1515.botswana.RobotMap;
 import org.team1515.botswana.util.Triple;
 import org.team1515.botswana.util.WheelSpeeds;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -58,6 +57,12 @@ public abstract class MecanumDrive extends Subsystem {
 		isReversed = false;
 
 	}
+	
+	public void resetPID() {
+		for (MecanumWheel wheel : wheels) {
+			wheel.resetPID();
+		}
+	}
 
 	private double bound(double speed) {
 		if (speed > 1.0) {
@@ -70,8 +75,8 @@ public abstract class MecanumDrive extends Subsystem {
 	}
 
 	public void setSpeed(WheelSpeeds speeds) {
-		speeds.print();
-		double factor = 1; // set to -1 to reverse wheelsG
+//		speeds.print();
+		double factor = 1; // set to -1 to reverse wheels
 		topLeftWheel.setSpeed(-bound(speeds.topLeft) * factor);
 		topRightWheel.setSpeed(bound(speeds.topRight * factor));
 		bottomLeftWheel.setSpeed(-bound(speeds.bottomLeft * factor));
@@ -84,9 +89,9 @@ public abstract class MecanumDrive extends Subsystem {
 		}
 	}
 	
-	public boolean onDistanceTarget() {
+	public boolean isOnDistanceTarget() {
 		for (MecanumWheel wheel : wheels) {
-			if (!wheel.onDistanceTarget()) {
+			if (!wheel.isOnDistanceTarget()) {
 				return false;
 			}
 		}
@@ -144,7 +149,7 @@ public abstract class MecanumDrive extends Subsystem {
 		double x = joystickValues.first;
 		double y = joystickValues.second;
 		double gyroAngle = Robot.gyro.getAngle();
-		System.out.println(gyroAngle);
+//		System.out.println(gyroAngle);
 //		gyroAngle = 90 - gyroAngle;
 //		gyroAngle = (gyroAngle % 360 + 360) % 360; // normalize gyro angle
 		gyroAngle *= Math.PI / 180;
