@@ -7,6 +7,7 @@ import org.team1515.botswana.commands.ReverseDrive;
 import org.team1515.botswana.commands.Shoot;
 import org.team1515.botswana.commands.ToggleGearHolder;
 import org.team1515.botswana.commands.WinchLift;
+import org.team1515.botswana.commands.AutomatedTest;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -39,6 +40,8 @@ public class OI {
 		Button reverseDrive = new JoystickButton(Robot.driveStick, Controls.REVERSE_DRIVE);
 		reverseDrive.whenPressed(new ReverseDrive());
 
+		Button automatedTest = new JoystickButton(Robot.secondStick, Controls.BUTTON_TEST);
+		automatedTest.whenPressed(new AutomatedTest());
 	}
 
 }

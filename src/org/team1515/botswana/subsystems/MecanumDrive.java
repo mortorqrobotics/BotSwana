@@ -133,6 +133,15 @@ public abstract class MecanumDrive extends Subsystem {
 		setSpeed(new WheelSpeeds(0, 0, 0, 0));
 	}
 
+	public WheelSpeeds getEncoderRates() {
+		return new WheelSpeeds(
+				topLeftWheel.getEncoderRate(), 
+				topRightWheel.getEncoderRate(),
+				bottomLeftWheel.getEncoderRate(), 
+				bottomRightWheel.getEncoderRate(), 
+			);
+	}
+
 	public void resetEncoders() {
 		for(MecanumWheel wheel : wheels) {
 			wheel.encoder.reset();
