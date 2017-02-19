@@ -14,8 +14,14 @@ public class StrafeLeft extends Command {
     	setTimeout(time);
     }
     
+	@Override
     protected void initialize() {
 		Robot.driveTrain.moveLeft(speed);
+	}
+
+	@Override
+	protected void execute() {
+		Robot.driveTrain.getEncoderRates().print();
 	}
 
 	@Override

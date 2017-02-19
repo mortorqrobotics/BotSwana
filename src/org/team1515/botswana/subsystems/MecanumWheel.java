@@ -73,6 +73,10 @@ public class MecanumWheel {
 		lastSpeed = 0;
 	}
 	
+	public double getEncoderRate() {
+		return encoder.getRate();
+	}
+
 //	private double limitAccel(double speed) {
 //		double difference = speed - lastSpeed;
 //		double sign = Math.signum(difference);

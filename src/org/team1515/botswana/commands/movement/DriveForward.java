@@ -14,8 +14,14 @@ public class DriveForward extends Command {
     	setTimeout(time);
     }
     
+	@Override
     protected void initialize() {
 		Robot.driveTrain.moveForward(speed);
+	}
+
+	@Override
+	protected void execute() {
+		Robot.driveTrain.getEncoderRates().print();
 	}
 
 	@Override

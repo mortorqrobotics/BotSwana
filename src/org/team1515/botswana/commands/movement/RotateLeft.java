@@ -14,8 +14,14 @@ public class RotateLeft extends Command {
     	setTimeout(time);
     }
     
+	@Override
     protected void initialize() {
 		Robot.driveTrain.rotateLeft(speed);
+	}
+
+	@Override
+	protected void execute() {
+		Robot.driveTrain.getEncoderRates().print();
 	}
 
 	@Override
