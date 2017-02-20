@@ -58,6 +58,10 @@ public abstract class MecanumDrive extends Subsystem {
 
 	}
 	
+	public boolean isReversed() {
+		return isReversed;
+	}
+	
 	public void resetPID() {
 		for (MecanumWheel wheel : wheels) {
 			wheel.resetPID();
@@ -185,10 +189,7 @@ public abstract class MecanumDrive extends Subsystem {
 
 	protected abstract Triple<Double> getJoystickXYZ();
 
-	public void setXYZ(double x, double y, double z) {
-		x *= DRIVING_SCALE;
-		y *= DRIVING_SCALE;
-		z *= TURNING_SCALE;
+	public WheelSpeeds mecanum(double x, double y, double z) {
 		WheelSpeeds line000To100 = WheelSpeeds.add(corner000,
 				WheelSpeeds.subtract(corner100, corner000).multiply(Math.abs(x)));
 		WheelSpeeds line010To110 = WheelSpeeds.add(corner010,
@@ -212,15 +213,49 @@ public abstract class MecanumDrive extends Subsystem {
 		if (z < 0) {
 			cube = new WheelSpeeds(cube.bottomRight, cube.bottomLeft, cube.topRight, cube.topLeft);
 		}
-
-		setSpeed(cube);
+		
+		return cube;
 	}
+	
+	public void pidTest(double targetX, double targetY, double targetZ) {
 
+		targetX *= 20000;
+		targetY *= 20000;
+		targetZ *= 300;
+
+		double tlSpeed = topLeftWheel.getEncoderRate();
+		double trSpeed = topRightWheel.getEncoderRate();
+		double blSpeed = bottomLeftWheel.getEncoderRate();
+		double brSpeed = bottomRightWheel.getEncoderRate();
+
+		double realX = tlSpeed - trSpeed - blSpeed + brSpeed;
+		double realY = tlSpeed + trSpeed + blSpeed + brSpeed;
+		double realZ = Robot.gyro.getRate();
+
+		double errorX = targetX - realX;
+		double errorY = targetY - realY;
+		double errorZ = targetZ - realZ;
+
+		WheelSpeeds error = mecanum(errorX / 20000, errorY / 20000, errorZ / 300);
+		
+		SmartDashboard.putNumber("errorTL", error.topLeft * 5000);
+		SmartDashboard.putNumber("errorTR", error.topRight * 5000);
+		SmartDashboard.putNumber("errorBL", error.bottomLeft * 5000);
+		SmartDashboard.putNumber("errorBR", error.bottomRight * 5000);
+
+		topLeftWheel.setPidError(error.topLeft * 5000);
+		topRightWheel.setPidError(error.topRight * 5000);
+		topLeftWheel.setPidError(error.bottomLeft * 5000);
+		bottomRightWheel.setPidError(error.bottomRight * 5000);
+	}
+	
 	public void drive() {
 		Triple<Double> triple = getJoystickXYZ();
 //		triple = getRelativeJoystick(triple);
 		double reverseFactor = isReversed ? -1 : 1;
-		setXYZ(reverseFactor * triple.first, reverseFactor * triple.second, triple.third);
+		WheelSpeeds speeds = mecanum(reverseFactor * triple.first, reverseFactor * triple.second, triple.third);
+		setSpeed(new WheelSpeeds(speeds.topLeft, speeds.topRight, speeds.bottomLeft * 0.85, speeds.bottomRight * 0.85));
+//		pidTest(reverseFactor * triple.first, reverseFactor * triple.second, triple.third);
 		a = SmartDashboard.getNumber("a", 0.0);
 		b = SmartDashboard.getNumber("b", 1.0);
 		c = SmartDashboard.getNumber("c", 1.0);

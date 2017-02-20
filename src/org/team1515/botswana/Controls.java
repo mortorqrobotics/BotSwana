@@ -16,11 +16,13 @@ public class Controls {
 	public static final int AXIS_TWIST = 5;
 	public static final int AXIS_THROTTLE = 2;
 	
-	public static final Button REVERSE = new JoystickButton(Robot.driveStick, 4);
-
+	public static final Button REVERSE = new JoystickButton(Robot.driveStick, 15);
+	
 	public static final Button INTAKE = new CombinedButton(Robot.secondStick, 3, 5);
 	public static final Button SHOOT = new CombinedButton(Robot.secondStick, 4, 6);
-	public static final Button TOGGLE_GEAR_HOLDER = new JoystickButton(Robot.secondStick, 11);
+	public static final Button INTAKE_REVERSE = new JoystickButton(Robot.secondStick, 11);
+	public static final Button SHOOT_REVERSE = new JoystickButton(Robot.secondStick, 12);
+	public static final Button TOGGLE_GEAR_HOLDER = new JoystickButton(Robot.secondStick, 2);
 	// useless
 //	public static final Button ALIGN = 7;
 //	public static final Button LIFT = 3;

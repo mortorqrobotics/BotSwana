@@ -1,17 +1,11 @@
 package org.team1515.botswana;
 
-import org.team1515.botswana.commands.ActionCommand;
 import org.team1515.botswana.commands.ActivateIntake;
-import org.team1515.botswana.commands.Align;
 import org.team1515.botswana.commands.ReverseDrive;
+import org.team1515.botswana.commands.ReverseIntake;
+import org.team1515.botswana.commands.ReverseShoot;
 import org.team1515.botswana.commands.Shoot;
 import org.team1515.botswana.commands.ToggleGearHolder;
-import org.team1515.botswana.commands.WinchLift;
-import org.team1515.botswana.commands.AutomatedTest;
-
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class OI {
 
@@ -31,6 +25,10 @@ public class OI {
 		Controls.INTAKE.whileHeld(new ActivateIntake());
 
 		Controls.SHOOT.whileHeld(new Shoot());
+		
+		Controls.SHOOT_REVERSE.whileHeld(new ReverseShoot());
+		
+		Controls.INTAKE_REVERSE.whileHeld(new ReverseIntake());
 		
 		Controls.TOGGLE_GEAR_HOLDER.whenPressed(new ToggleGearHolder());
 		

@@ -11,16 +11,19 @@ public class MecanumWheel {
 
 	public final MotorModule motor;
 
-	static final double K_P = 0.0003 * 0.2;
-	static final double K_I = K_P * 2.0 / 1.0;
-	static final double K_D = K_P * 1.0 / 3.0;
+//	static final double K_P = 0.0003 * 0.2;
+//	static final double K_I = K_P * 2.0 / 1.0;
+//	static final double K_D = K_P * 1.0 / 3.0;
+	static final double K_P = 0.00001;
+	static final double K_I = 0;//K_P * 2.0 / 1.0;
+	static final double K_D = 0;//K_P * 1.0 / 3.0;
 	static final double MAX_ENCODER_RATE = 5000;
 
 	public double errorSum = 0;
 	public double lastError = 0;
 	public double lastSpeed = 0;
 
-	public static final double ACCELERATION_LIMIT = 0.1;
+	public static final double ACCELERATION_LIMIT = 0.05;
 
 	public Encoder encoder;
 	private DistancePIDController distancePIDController;
@@ -46,24 +49,25 @@ public class MecanumWheel {
 	}
 
 	public void setSpeed(double speed) {
-//		motor.setSpeed(speed); if (true) return;
+//		if (firstport != 31) {
+//			motor.setSpeed(speed * 0.95);
+//			return;
+//		}
+		if (true) { motor.setSpeed(limitAccel(speed)); return; }
 		if (speed == 0) {
 			motor.setSpeed(0);
 			return;
 		}
 		speed *= MAX_ENCODER_RATE;
 		double error = speed + encoder.getRate();
-		if (firstport == 31) {
-//			System.out.println(speed + "\t" + encoder.getRate());
-			SmartDashboard.putNumber("error", error);
-		}
+		SmartDashboard.putNumber("error", error);
 		errorSum += error;
 		double output = K_P * error + K_I * errorSum + K_D * (error - lastError);
 		if (1 <= output || output <= -1) {
 			errorSum -= error;
 		}
 		motor.setSpeed(output);
-		lastSpeed = output;
+//		motor.setSpeed(limitAccel(output));
 		lastError = error;
 	}
 	
@@ -72,19 +76,31 @@ public class MecanumWheel {
 		lastError = 0;
 		lastSpeed = 0;
 	}
+
+	public void setPidError(double error) {
+		errorSum += error;
+		double output = K_P * error + K_I * errorSum + K_D * (error - lastError);
+		if (1 <= output || output <= -1) {
+			errorSum -= error;
+		}
+		motor.setSpeed(output);
+//		motor.setSpeed(limitAccel(output));
+		lastError = error;
+	}
 	
 	public double getEncoderRate() {
 		return encoder.getRate();
 	}
 
-//	private double limitAccel(double speed) {
-//		double difference = speed - lastSpeed;
-//		double sign = Math.signum(difference);
-//		if (Math.abs(difference) > ACCELERATION_LIMIT) {
-//			speed = lastSpeed + ACCELERATION_LIMIT * sign;
-//		}
-//		return speed;
-//	}
+	private double limitAccel(double speed) {
+		double difference = speed - lastSpeed;
+		double sign = Math.signum(difference);
+		if (Math.abs(speed) > Math.abs(lastSpeed) && Math.abs(difference) > ACCELERATION_LIMIT) {
+			speed = lastSpeed + ACCELERATION_LIMIT * sign;
+		}
+		lastSpeed = speed;
+		return speed;
+	}
 	
 	public void itializeDistancePID(double distanceTarget) {
 		distancePIDController.initialize(distanceTarget);

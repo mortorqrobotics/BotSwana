@@ -4,20 +4,25 @@ import org.team1515.botswana.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ReverseDrive extends Command {
+public class ReverseIntake extends Command {
 	
-	public ReverseDrive() {
-		requires(Robot.driveTrain);
+	public ReverseIntake() {
+		requires(Robot.shooter);
 	}
 	
 	@Override
 	protected void initialize() {
-		Robot.driveTrain.reverse();
+		Robot.shooter.reverseIntake();
 	}
-
+	
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
+	}
+	
+	@Override
+	protected void end() {
+		Robot.shooter.stop();
 	}
 	
 	@Override
