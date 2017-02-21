@@ -14,9 +14,9 @@ public class MecanumWheel {
 //	static final double K_P = 0.0003 * 0.2;
 //	static final double K_I = K_P * 2.0 / 1.0;
 //	static final double K_D = K_P * 1.0 / 3.0;
-	static final double K_P = 0.00001;
-	static final double K_I = 0;//K_P * 2.0 / 1.0;
-	static final double K_D = 0;//K_P * 1.0 / 3.0;
+	public static double K_P = 0.0001;
+	public static double K_I = 0;//K_P * 2.0 / 1.0;
+	public static double K_D = 0;//K_P * 1.0 / 3.0;
 	static final double MAX_ENCODER_RATE = 5000;
 
 	public double errorSum = 0;
@@ -30,7 +30,7 @@ public class MecanumWheel {
 
 	double lastEncoderPosition = 0;
 	
-	double firstport;
+	int firstport;
 	public MecanumWheel(int[] motorPorts, Pair<Integer> encoderPorts) {
 		motor = new MotorModule(motorPorts);
 		firstport = motorPorts[0];
@@ -48,24 +48,27 @@ public class MecanumWheel {
 		resetPID();
 	}
 
+	public double error;
 	public void setSpeed(double speed) {
+		double trim = MecanumDrive.trims[firstport - 31];
 //		if (firstport != 31) {
 //			motor.setSpeed(speed * 0.95);
 //			return;
 //		}
-		if (true) { motor.setSpeed(limitAccel(speed)); return; }
-		if (speed == 0) {
-			motor.setSpeed(0);
-			return;
-		}
+//		if (true) { motor.setSpeed(limitAccel(speed)); System.out.println(encoder.get()); return; }
+//		if (speed == 0) {
+//			motor.setSpeed(0);
+//			return;
+//		}
 		speed *= MAX_ENCODER_RATE;
-		double error = speed + encoder.getRate();
-		SmartDashboard.putNumber("error", error);
+		error = speed + encoder.getRate();
+//		motor.setSpeed(speed / MAX_ENCODER_RATE);
 		errorSum += error;
-		double output = K_P * error + K_I * errorSum + K_D * (error - lastError);
+		double output = trim * speed / MAX_ENCODER_RATE + K_P * error + K_I * errorSum + K_D * (error - lastError);
 		if (1 <= output || output <= -1) {
 			errorSum -= error;
 		}
+//		System.out.println(firstport + "\t" + output);
 		motor.setSpeed(output);
 //		motor.setSpeed(limitAccel(output));
 		lastError = error;

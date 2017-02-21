@@ -32,10 +32,10 @@ public abstract class MecanumDrive extends Subsystem {
 	protected static final WheelSpeeds corner110 = new WheelSpeeds(1, 0, 0, 1);
 	protected static final WheelSpeeds corner111 = new WheelSpeeds(1, -c, c, d);
 
-	protected MecanumWheel topLeftWheel;
-	protected MecanumWheel topRightWheel;
-	protected MecanumWheel bottomLeftWheel;
-	protected MecanumWheel bottomRightWheel;
+	public MecanumWheel topLeftWheel;
+	public MecanumWheel topRightWheel;
+	public MecanumWheel bottomLeftWheel;
+	public MecanumWheel bottomRightWheel;
 	
 	boolean isReversed;
 
@@ -106,6 +106,10 @@ public abstract class MecanumDrive extends Subsystem {
 		isReversed = !isReversed;
 	}
 	
+	public void undoReverse() {
+		isReversed = false;
+	}
+	
 	public WheelSpeeds getDistancePID() {
 		return new WheelSpeeds(
 			topLeftWheel.getDistanceError(), 
@@ -151,7 +155,7 @@ public abstract class MecanumDrive extends Subsystem {
 				bottomRightWheel.getEncoderRate()
 			);
 	}
-
+	
 	public void resetEncoders() {
 		for(MecanumWheel wheel : wheels) {
 			wheel.encoder.reset();
@@ -249,17 +253,20 @@ public abstract class MecanumDrive extends Subsystem {
 		bottomRightWheel.setPidError(error.bottomRight * 5000);
 	}
 	
+	public static double[] trims = {2/2.8, 1, 12.0/11*2/2.8, 2/2.8};
+	
 	public void drive() {
 		Triple<Double> triple = getJoystickXYZ();
 //		triple = getRelativeJoystick(triple);
 		double reverseFactor = isReversed ? -1 : 1;
 		WheelSpeeds speeds = mecanum(reverseFactor * triple.first, reverseFactor * triple.second, triple.third);
-		setSpeed(new WheelSpeeds(speeds.topLeft, speeds.topRight, speeds.bottomLeft * 0.85, speeds.bottomRight * 0.85));
+//		speeds.print();
+//		setSpeed(new WheelSpeeds(speeds.topLeft * 2.875 / 4, speeds.topRight * 2.875 / 3.5, speeds.bottomLeft, speeds.bottomRight * 2.875 / 3.5));
+//		setSpeed(new WheelSpeeds(speeds.topLeft, speeds.topRight * 2.8/2, speeds.bottomLeft * 12.0/11, speeds.bottomRight));
+		setSpeed(new WheelSpeeds(speeds.topLeft, speeds.topRight, speeds.bottomLeft, speeds.bottomRight));
 //		pidTest(reverseFactor * triple.first, reverseFactor * triple.second, triple.third);
-		a = SmartDashboard.getNumber("a", 0.0);
-		b = SmartDashboard.getNumber("b", 1.0);
-		c = SmartDashboard.getNumber("c", 1.0);
-		d = SmartDashboard.getNumber("d", 1.0);
+//		getEncoderRates().print();
+		System.out.println(speeds.topLeft * 5000 + "\t" + topLeftWheel.getEncoderRate() + "\t" + speeds.topRight * 5000 + "\t" + topRightWheel.getEncoderRate() + "\t" +speeds.bottomLeft * 5000 + "\t" + bottomLeftWheel.getEncoderRate() + "\t" +speeds.bottomRight * 5000 + "\t" + bottomRightWheel.getEncoderRate() + "\t");
 	}
 
 }

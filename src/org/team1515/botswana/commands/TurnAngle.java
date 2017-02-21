@@ -12,7 +12,7 @@ public class TurnAngle extends Command {
 	static final int ERROR_INCREMENT_FINISH = 2;
 
 	static final double P = 0.00000001;
-	static final double I = 0;
+	static final double I = 0.00000001;
 	static final double D = 0;
 
 	double targetAngle;
@@ -21,7 +21,7 @@ public class TurnAngle extends Command {
 	double errorSum;
 	double lastError = 0;
 	int errorIncrement = 0;
-
+	
 	public TurnAngle(double targetAngle) {
 		requires(Robot.driveTrain);
 		this.targetAngle = targetAngle;
@@ -40,7 +40,7 @@ public class TurnAngle extends Command {
 		if (Math.abs(speed) < MIN_SPEED) {
 			speed = Math.signum(speed) * MIN_SPEED;
 		}
-		Robot.driveTrain.setSpeed(new WheelSpeeds(speed, -speed, speed, -speed));
+		Robot.driveTrain.setSpeed(new WheelSpeeds(speed , -speed, speed, -speed));
 		if (Math.abs(error) <= MIN_ERROR && lastError > MIN_ERROR) {
 			errorIncrement++;
 		}

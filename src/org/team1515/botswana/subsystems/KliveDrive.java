@@ -25,11 +25,19 @@ public class KliveDrive extends MecanumDrive {
 		x *= getThrottle();
 		y *= getThrottle();
 		z *= getThrottle();
+		
+//		if (x != 0) x = 0.2 * Math.signum(x);
+//		if (y != 0) y = 0.2 * Math.signum(y);
+//		
+		if (!Robot.driveStick.getRawButton(6)) {
+			x = 0;
+		}
 
 		return new Triple<Double>(x, y, z);
 	}
 
 	protected double getThrottle() {
+//		if (true) return 0.6;
 		return (-Robot.driveStick.getRawAxis(Controls.AXIS_THROTTLE) + 1) / 2;
 	}
 
