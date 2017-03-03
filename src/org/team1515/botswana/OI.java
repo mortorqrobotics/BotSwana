@@ -7,7 +7,7 @@ import org.team1515.botswana.commands.ReverseIntake;
 import org.team1515.botswana.commands.ReverseShoot;
 import org.team1515.botswana.commands.Shoot;
 import org.team1515.botswana.commands.ToggleGearHolder;
-import org.team1515.botswana.commands.auto.ForwardGearBlindAuto;
+import org.team1515.botswana.commands.auto.RightGearSightAuto;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -28,7 +28,7 @@ public class OI {
 //		lift.whenPressed(new WinchLift());
 		
 		Button auto = new JoystickButton(Robot.driveStick, 3);
-		auto.whenPressed(new ForwardGearBlindAuto());
+		auto.whenPressed(new RightGearSightAuto());
 		
 		Controls.INTAKE.whileHeld(new ActivateIntake());
 

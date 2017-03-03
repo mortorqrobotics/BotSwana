@@ -8,7 +8,7 @@ public class DriveForward extends Command {
 
 	double speed;
 	
-    public DriveForward(double speed, int time) {
+    public DriveForward(double speed, double time) {
     	requires(Robot.driveTrain);
     	this.speed = speed;
     	setTimeout(time);

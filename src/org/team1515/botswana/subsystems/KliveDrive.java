@@ -24,7 +24,7 @@ public class KliveDrive extends MecanumDrive {
 
 		x *= getThrottle();
 		y *= getThrottle();
-		z *= getThrottle();
+		z *= Math.sqrt(getThrottle()) * 0.5;
 		
 //		if (x != 0) x = 0.2 * Math.signum(x);
 //		if (y != 0) y = 0.2 * Math.signum(y);

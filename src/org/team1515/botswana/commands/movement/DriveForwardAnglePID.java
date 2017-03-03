@@ -18,21 +18,22 @@ public class DriveForwardAnglePID extends Command {
 	double errorSum;
 	double lastError = 0;
 	double speed;
+	double targetAngle;
 	
-    public DriveForwardAnglePID(double speed) {
+    public DriveForwardAnglePID(double speed, double targetAngle) {
     	requires(Robot.driveTrain);
     	this.speed = speed;
+    	this.targetAngle = targetAngle;
     }
     
 	@Override
     protected void initialize() {
-//		Robot.driveTrain.moveForward(speed);
 		gyroStartAngle = Robot.gyro.getAngle();
 	}
 
 	@Override
 	protected void execute() {
-		double error = -(Robot.gyro.getAngle() - gyroStartAngle);
+		double error = -(Robot.gyro.getAngle() - gyroStartAngle) + targetAngle;
 		double speed = error * P + errorSum * I + (error - lastError) * D;
 		errorSum += error;
 		if (Math.abs(speed) < MIN_SPEED) {
@@ -44,7 +45,7 @@ public class DriveForwardAnglePID extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return !Robot.limitSwitch.get();
+		return isTimedOut() || !Robot.limitSwitch.get();
 	}
 
 	@Override

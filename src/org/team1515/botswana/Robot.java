@@ -1,6 +1,7 @@
 
 package org.team1515.botswana;
 
+import org.team1515.botswana.commands.auto.ForwardGearBlindAuto;
 import org.team1515.botswana.subsystems.GearHolder;
 import org.team1515.botswana.subsystems.KliveDrive;
 import org.team1515.botswana.subsystems.MecanumDrive;
@@ -9,14 +10,13 @@ import org.team1515.botswana.subsystems.Shooter;
 import org.team1515.botswana.subsystems.Winch;
 import org.team1515.botswana.util.WheelSpeeds;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,11 +36,15 @@ public class Robot extends IterativeRobot {
 	public static final DigitalInput limitSwitch = new DigitalInput(RobotMap.LIMIT_SWITCH);
 	
 	public static final PowerDistributionPanel pdp = new PowerDistributionPanel(10);
+	
+	Command autonomousCommand;
 
 	@Override
 	public void robotInit() {
 		oi = new OI();
 //		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		
+		autonomousCommand = new ForwardGearBlindAuto();
 		
 		SmartDashboard.putNumber("p", MecanumWheel.K_P);
 		SmartDashboard.putNumber("i", MecanumWheel.K_I);
@@ -59,7 +63,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
+		}
 	}
 
 	@Override
@@ -86,6 +92,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putBoolean("isReversed", Robot.driveTrain.isReversed());
 //		System.out.println("gyro: " + gyro.getRate());
 		Scheduler.getInstance().run();
+		
+		SmartDashboard.putBoolean("limitSwitch", limitSwitch.get());
 		
 //		for(int i : new int[]{2,3,12,13}) {
 //			System.out.print(pdp.getCurrent(i) + "\t");

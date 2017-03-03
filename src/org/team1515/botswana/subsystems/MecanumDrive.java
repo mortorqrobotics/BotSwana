@@ -67,6 +67,13 @@ public abstract class MecanumDrive extends Subsystem {
 			wheel.resetPID();
 		}
 	}
+	
+	public int getEncoderSum() {
+		return topLeftWheel.getEncoderDistance()
+				- topRightWheel.getEncoderDistance()
+				+ bottomLeftWheel.getEncoderDistance()
+				- bottomRightWheel.getEncoderDistance();
+	}
 
 	private double bound(double speed) {
 		if (speed > 1.0) {

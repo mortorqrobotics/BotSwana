@@ -10,8 +10,9 @@ public class Shooter extends Subsystem {
 	MotorModule frontMotors;
 	MotorModule backMotors;
 
-	private static final double SPEED_INTAKE = 0.5;
-	private static final double SPEED_SHOOT = 0.9;
+	private static final double SPEED_INTAKE = 0.7;
+//	private static final double SPEED_INTAKE = 1;
+	private static final double SPEED_SHOOT = 1;
 
 	public Shooter() {
 		frontMotors = new MotorModule(RobotMap.MOTORS_FRONT_SHOOTER);
@@ -19,23 +20,23 @@ public class Shooter extends Subsystem {
 	}
 
 	public void shoot() {
-		frontMotors.setSpeed(SPEED_SHOOT);
-		backMotors.setSpeed(-SPEED_SHOOT);
+		frontMotors.setSpeed(1);
+		backMotors.setSpeed(SPEED_SHOOT);
 	}
 
 	public void intake() {
-		frontMotors.setSpeed(SPEED_INTAKE);
-		backMotors.setSpeed(-SPEED_INTAKE);
+		frontMotors.setSpeed(0.5);
+		backMotors.setSpeed(1);
 	}
 	
 	public void reverseShoot() {
 		frontMotors.setSpeed(-SPEED_SHOOT);
-		backMotors.setSpeed(SPEED_SHOOT);
+		backMotors.setSpeed(-SPEED_SHOOT);
 	}
 	
 	public void reverseIntake() {
 		frontMotors.setSpeed(-SPEED_INTAKE);
-		backMotors.setSpeed(SPEED_INTAKE);
+		backMotors.setSpeed(-SPEED_INTAKE);
 	}
 
 	public void stop() {
