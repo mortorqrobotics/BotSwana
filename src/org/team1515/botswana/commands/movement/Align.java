@@ -1,4 +1,6 @@
-package org.team1515.botswana.commands;
+package org.team1515.botswana.commands.movement;
+
+import org.team1515.botswana.util.SendPiRequest;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -10,9 +12,9 @@ public class Align extends CommandGroup {
 	public Align() {
 		for (int i = 0; i < ITERATIONS; i++) {
 			SendPiRequest req = new SendPiRequest();
-			addSequential(req);
-			if (req.getAngleResponse() != null) {
-				addSequential(new TurnAngle(req.getAngleResponse()));  // only turn angle if angle found
+			Double angle = req.getAngleResponse();
+			if (angle != null) {
+				addSequential(new TurnAngle(angle));  // only turn angle if angle found
 			} else if (i > 0) {
 				addSequential(new DriveForwardLimitSwitch(FORWARD_SPEED)); // if no angle found, but aligned in previous iterations, drive forward and end
 				return;

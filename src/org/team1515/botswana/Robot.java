@@ -105,16 +105,16 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putNumber("errorBL", pdp.getCurrent(13) + Math.random() / 10000);
 //		SmartDashboard.putNumber("errorBR", pdp.getCurrent(12) + Math.random() / 10000);
 
-		SmartDashboard.putNumber("errorTL", driveTrain.topLeftWheel.error + Math.random() / 10000);
-		SmartDashboard.putNumber("errorTR", driveTrain.topRightWheel.error + Math.random() / 10000);
-		SmartDashboard.putNumber("errorBL", driveTrain.bottomLeftWheel.error + Math.random() / 10000);
-		SmartDashboard.putNumber("errorBR", driveTrain.bottomRightWheel.error + Math.random() / 10000);
-		
-		WheelSpeeds rates = driveTrain.getEncoderRates();
-		SmartDashboard.putNumber("encTL", Math.abs(rates.topLeft) + Math.random() / 10000);
-		SmartDashboard.putNumber("encTR", Math.abs(rates.topRight) + Math.random() / 10000);
-		SmartDashboard.putNumber("encBL", Math.abs(rates.bottomLeft) + Math.random() / 10000);
-		SmartDashboard.putNumber("encBR", Math.abs(rates.bottomRight) + Math.random() / 10000);
+//		SmartDashboard.putNumber("errorTL", driveTrain.topLeftWheel.error + Math.random() / 10000);
+//		SmartDashboard.putNumber("errorTR", driveTrain.topRightWheel.error + Math.random() / 10000);
+//		SmartDashboard.putNumber("errorBL", driveTrain.bottomLeftWheel.error + Math.random() / 10000);
+//		SmartDashboard.putNumber("errorBR", driveTrain.bottomRightWheel.error + Math.random() / 10000);
+//		
+//		WheelSpeeds rates = driveTrain.getEncoderRates();
+//		SmartDashboard.putNumber("encTL", Math.abs(rates.topLeft) + Math.random() / 10000);
+//		SmartDashboard.putNumber("encTR", Math.abs(rates.topRight) + Math.random() / 10000);
+//		SmartDashboard.putNumber("encBL", Math.abs(rates.bottomLeft) + Math.random() / 10000);
+//		SmartDashboard.putNumber("encBR", Math.abs(rates.bottomRight) + Math.random() / 10000);
 		
 //		System.out.println((acceler.getX() - x0) + "\t" + (acceler.getY() - y0) + "\t" + (acceler.getZ() - z0));
 	}

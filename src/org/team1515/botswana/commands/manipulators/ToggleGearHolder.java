@@ -1,4 +1,4 @@
-package org.team1515.botswana.commands;
+package org.team1515.botswana.commands.manipulators;
 
 import org.team1515.botswana.Robot;
 

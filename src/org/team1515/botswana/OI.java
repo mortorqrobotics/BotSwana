@@ -1,13 +1,13 @@
 package org.team1515.botswana;
 
 import org.team1515.botswana.commands.ActionCommand;
-import org.team1515.botswana.commands.ActivateIntake;
-import org.team1515.botswana.commands.ReverseDrive;
-import org.team1515.botswana.commands.ReverseIntake;
-import org.team1515.botswana.commands.ReverseShoot;
-import org.team1515.botswana.commands.Shoot;
-import org.team1515.botswana.commands.ToggleGearHolder;
 import org.team1515.botswana.commands.auto.RightGearSightAuto;
+import org.team1515.botswana.commands.manipulators.ActivateIntake;
+import org.team1515.botswana.commands.manipulators.ReverseDrive;
+import org.team1515.botswana.commands.manipulators.ReverseIntake;
+import org.team1515.botswana.commands.manipulators.ReverseShoot;
+import org.team1515.botswana.commands.manipulators.Shoot;
+import org.team1515.botswana.commands.manipulators.ToggleGearHolder;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;

@@ -1,22 +1,23 @@
 package org.team1515.botswana.commands.movement;
 
 import org.team1515.botswana.Robot;
+import org.team1515.botswana.util.WheelSpeeds;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveForward extends Command {
+public class Drive extends Command {
 
-	double speed;
+	WheelSpeeds speeds;
 	
-    public DriveForward(double speed, double time) {
+    public Drive(WheelSpeeds speeds, double time) {
     	requires(Robot.driveTrain);
-    	this.speed = speed;
+    	this.speeds = speeds;
     	setTimeout(time);
     }
     
 	@Override
     protected void initialize() {
-		Robot.driveTrain.moveForward(speed);
+		Robot.driveTrain.setSpeed(speeds);
 	}
 
 	@Override

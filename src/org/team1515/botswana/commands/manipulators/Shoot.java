@@ -1,18 +1,18 @@
-package org.team1515.botswana.commands;
+package org.team1515.botswana.commands.manipulators;
 
 import org.team1515.botswana.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class WinchLift extends Command {
+public class Shoot extends Command {
 
-	public WinchLift() {
-		requires(Robot.winch);
+	public Shoot() {
+		requires(Robot.shooter);
 	}
 
 	@Override
 	protected void initialize() {
-		Robot.winch.lift();
+		Robot.shooter.shoot();
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class WinchLift extends Command {
 
 	@Override
 	protected void end() {
-		Robot.winch.stop();
+		Robot.shooter.stop();
 	}
 
 	@Override
@@ -31,4 +31,3 @@ public class WinchLift extends Command {
 	}
 
 }
-

@@ -1,18 +1,18 @@
-package org.team1515.botswana.commands;
+package org.team1515.botswana.commands.manipulators;
 
 import org.team1515.botswana.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Shoot extends Command {
+public class ActivateIntake extends Command {
 
-	public Shoot() {
+	public ActivateIntake() {
 		requires(Robot.shooter);
 	}
 
 	@Override
 	protected void initialize() {
-		Robot.shooter.shoot();
+		Robot.shooter.intake();
 	}
 
 	@Override

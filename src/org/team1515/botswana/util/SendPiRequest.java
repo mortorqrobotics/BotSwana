@@ -1,20 +1,16 @@
-package org.team1515.botswana.commands;
+package org.team1515.botswana.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class SendPiRequest extends Command {
-
-	static final String url = "http://10.15.15.4:8080";
+public class SendPiRequest {
+static final String url = "http://10.15.15.4:8080";
 
 	State state;
 	Double angleResponse;
 
 	private void sendRequest() {
-		state = State.PENDING;
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
 			String res = reader.readLine();
@@ -31,6 +27,7 @@ public class SendPiRequest extends Command {
 	}
 
 	public Double getAngleResponse() {
+		sendRequest();
 		if (state == State.SUCCESS) {
 			return angleResponse;
 		} else {
@@ -38,18 +35,7 @@ public class SendPiRequest extends Command {
 		}
 	}
 
-	@Override
-	protected void initialize() {
-		sendRequest();
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return state == State.SUCCESS || state == State.FAILURE;
-	}
-
 	private enum State {
-		PENDING,
 		SUCCESS,
 		FAILURE;
 	}

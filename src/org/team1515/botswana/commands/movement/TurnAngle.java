@@ -1,4 +1,4 @@
-package org.team1515.botswana.commands;
+package org.team1515.botswana.commands.movement;
 
 import org.team1515.botswana.Robot;
 import org.team1515.botswana.util.WheelSpeeds;
@@ -26,7 +26,7 @@ public class TurnAngle extends Command {
 		requires(Robot.driveTrain);
 		this.targetAngle = targetAngle;
 	}
-
+	
 	@Override
 	protected void initialize() {
 		errorIncrement = 0;

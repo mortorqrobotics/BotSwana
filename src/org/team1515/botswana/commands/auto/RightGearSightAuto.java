@@ -1,8 +1,9 @@
 package org.team1515.botswana.commands.auto;
 
-import org.team1515.botswana.commands.Align;
-import org.team1515.botswana.commands.DriveForwardDistanceBad;
-import org.team1515.botswana.commands.TurnAngleBad;
+import org.team1515.botswana.commands.manipulators.ToggleGearHolder;
+import org.team1515.botswana.commands.movement.Align;
+import org.team1515.botswana.commands.movement.DriveForwardDistanceBad;
+import org.team1515.botswana.commands.movement.TurnAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -14,8 +15,9 @@ public class RightGearSightAuto extends CommandGroup {
 
 	public RightGearSightAuto() {
 		addSequential(new DriveForwardDistanceBad(DISTANCE_1));
-		addSequential(new TurnAngleBad(ANGLE));
+		addSequential(new TurnAngle(ANGLE));
 		addSequential(new DriveForwardDistanceBad(DISTANCE_2));
 		addSequential(new Align());
+		addSequential(new ToggleGearHolder());
 	}
 }

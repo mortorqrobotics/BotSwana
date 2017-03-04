@@ -24,5 +24,7 @@ public class RobotMap {
 	public static final int[] MOTORS_WINCH = {42};
 	public static final int[] MOTORS_FRONT_SHOOTER = {40};
 	public static final int[] MOTORS_BACK_SHOOTER = {41};
+	
+	public static final double MECANUM_WHEEL_CIRCUMFERENCE = 6 * Math.PI; 
 
 }

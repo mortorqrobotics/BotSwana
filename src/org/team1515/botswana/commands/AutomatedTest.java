@@ -1,13 +1,11 @@
 package org.team1515.botswana.commands;
 
 import org.team1515.botswana.Controls;
-import org.team1515.botswana.Robot;
-import org.team1515.botswana.commands.movement.DriveBackward;
-import org.team1515.botswana.commands.movement.DriveForward;
-import org.team1515.botswana.commands.movement.RotateLeft;
-import org.team1515.botswana.commands.movement.RotateRight;
-import org.team1515.botswana.commands.movement.StrafeLeft;
-import org.team1515.botswana.commands.movement.StrafeRight;
+import org.team1515.botswana.commands.manipulators.ActivateIntake;
+import org.team1515.botswana.commands.manipulators.ToggleGearHolder;
+import org.team1515.botswana.commands.manipulators.WinchLift;
+import org.team1515.botswana.commands.movement.Drive;
+import org.team1515.botswana.util.WheelSpeeds;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -21,12 +19,10 @@ public class AutomatedTest extends CommandGroup {
 		testCommand(new ToggleGearHolder(), "open gear holder", 3);
 		testCommand(new ToggleGearHolder(), "close gear holder", 3);
 		testCommand(new WinchLift(), "spin winch", 3);
-		testCommand(new DriveForward(1, 3), "drive forward", 3);
-		testCommand(new DriveBackward(1, 3), "drive backward", 3);
-		testCommand(new StrafeLeft(1, 3), "strafe left", 3);
-		testCommand(new StrafeRight(1, 3), "strafe right", 3);
-		testCommand(new RotateLeft(1, 3), "rotate left", 3);
-		testCommand(new RotateRight(1, 3), "rotate right", 3);
+		testCommand(new Drive(new WheelSpeeds(1, 1, 1, 1), 3), "drive forward", 3);
+		testCommand(new Drive(new WheelSpeeds(-1, -1, -1, -1), 3), "drive backward", 3);
+		testCommand(new Drive(new WheelSpeeds(-1, 1, -1, 1), 3), "rotate left", 3);
+		testCommand(new Drive(new WheelSpeeds(1, -1, 1, -1), 3), "rotate right", 3);
 	}
 	
 	public void testCommand(Command command, String description, int timeout) {

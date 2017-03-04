@@ -1,8 +1,9 @@
 package org.team1515.botswana.commands.auto;
 
-import org.team1515.botswana.commands.DriveForwardDistance;
-import org.team1515.botswana.commands.DriveForwardLimitSwitch;
-import org.team1515.botswana.commands.TurnAngle;
+import org.team1515.botswana.commands.manipulators.ToggleGearHolder;
+import org.team1515.botswana.commands.movement.DriveForwardDistance;
+import org.team1515.botswana.commands.movement.DriveForwardLimitSwitch;
+import org.team1515.botswana.commands.movement.TurnAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -16,5 +17,6 @@ public class RightGearBlindAuto extends CommandGroup {
 		addSequential(new DriveForwardDistance(DISTANCE));
 		addSequential(new TurnAngle(ANGLE));
 		addSequential(new DriveForwardLimitSwitch(SPEED));
+		addSequential(new ToggleGearHolder());
 	}
 }
