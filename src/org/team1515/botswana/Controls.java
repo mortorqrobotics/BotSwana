@@ -24,10 +24,8 @@ public class Controls {
 	public static final Button INTAKE_REVERSE = new JoystickButton(Robot.secondStick, 11);
 	public static final Button SHOOT_REVERSE = new JoystickButton(Robot.secondStick, 12);
 	public static final Button TOGGLE_GEAR_HOLDER = new JoystickButton(Robot.secondStick, 2);
-	// useless
 	public static final Button ALIGN = new JoystickButton(Robot.driveStick, 4);
-//	public static final Button LIFT = 3;
-//	public static final Button STOP_ALIGN = 6;
+	public static final Button LIFT = new JoystickButton(Robot.secondStick, 13);
 	public static final Button TEST = new JoystickButton(Robot.secondStick, 90);
 
 }

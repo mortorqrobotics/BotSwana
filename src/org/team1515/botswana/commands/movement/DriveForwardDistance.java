@@ -1,31 +1,32 @@
 package org.team1515.botswana.commands.movement;
 
 import org.team1515.botswana.Robot;
+import org.team1515.botswana.util.WheelSpeeds;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveForwardDistance extends Command {
 
-	double distance;
+	static final double SPEED = -0.15;
+	
+	int distance;
+	
+	int initialDistance;
 
-	public DriveForwardDistance(double distance) {
+	public DriveForwardDistance(int distance) {
 		requires(Robot.driveTrain);
 		this.distance = distance;
 	}
 	
 	@Override
 	protected void initialize() {
-		Robot.driveTrain.initializeDistancePID(distance);
+		initialDistance = Robot.driveTrain.getEncoderSum();
+		Robot.driveTrain.setSpeed(new WheelSpeeds(SPEED, SPEED, SPEED, SPEED));
 	}
 	
 	@Override
-	protected void execute() {
-		Robot.driveTrain.setSpeed(Robot.driveTrain.getDistancePID());
-	}
-
-	@Override
 	protected boolean isFinished() {
-		return Robot.driveTrain.isOnDistanceTarget();
+		return Math.abs(initialDistance - Robot.driveTrain.getEncoderSum()) >= distance;
 	}
 
 	@Override

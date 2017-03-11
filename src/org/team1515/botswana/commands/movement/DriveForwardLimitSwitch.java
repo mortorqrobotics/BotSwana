@@ -1,6 +1,7 @@
 package org.team1515.botswana.commands.movement;
 
 import org.team1515.botswana.Robot;
+import org.team1515.botswana.util.WheelSpeeds;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -14,7 +15,7 @@ public class DriveForwardLimitSwitch extends Command {
 	}
 
 	protected void execute() {
-		Robot.driveTrain.moveForward(speed);
+		Robot.driveTrain.setSpeed(new WheelSpeeds(speed, speed, speed, speed));
 	}
 
 	protected boolean isFinished() {

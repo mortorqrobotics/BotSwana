@@ -1,6 +1,5 @@
 package org.team1515.botswana.subsystems;
 
-import org.team1515.botswana.util.DistancePIDController;
 import org.team1515.botswana.util.MotorModule;
 import org.team1515.botswana.util.Pair;
 
@@ -26,7 +25,6 @@ public class MecanumWheel {
 	public static final double ACCELERATION_LIMIT = 0.05;
 
 	public Encoder encoder;
-	private DistancePIDController distancePIDController;
 
 	double lastEncoderPosition = 0;
 	
@@ -43,32 +41,19 @@ public class MecanumWheel {
 //		encoder.setReverseDirection(true);
 		encoder.reset();
 		
-		distancePIDController = new DistancePIDController(encoder);
-		
 		resetPID();
 	}
 
 	public double error;
 	public void setSpeed(double speed) {
 		double trim = MecanumDrive.trims[firstport - 31];
-//		if (firstport != 31) {
-//			motor.setSpeed(speed * 0.95);
-//			return;
-//		}
-//		if (true) { motor.setSpeed(limitAccel(speed)); System.out.println(encoder.get()); return; }
-//		if (speed == 0) {
-//			motor.setSpeed(0);
-//			return;
-//		}
 		speed *= MAX_ENCODER_RATE;
 		error = speed + encoder.getRate();
-//		motor.setSpeed(speed / MAX_ENCODER_RATE);
 		errorSum += error;
 		double output = trim * speed / MAX_ENCODER_RATE + K_P * error + K_I * errorSum + K_D * (error - lastError);
 		if (1 <= output || output <= -1) {
 			errorSum -= error;
 		}
-//		System.out.println(firstport + "\t" + output);
 		motor.setSpeed(output);
 //		motor.setSpeed(limitAccel(output));
 		lastError = error;
@@ -99,25 +84,14 @@ public class MecanumWheel {
 		return encoder.get();
 	}
 
-	private double limitAccel(double speed) {
-		double difference = speed - lastSpeed;
-		double sign = Math.signum(difference);
-		if (Math.abs(speed) > Math.abs(lastSpeed) && Math.abs(difference) > ACCELERATION_LIMIT) {
-			speed = lastSpeed + ACCELERATION_LIMIT * sign;
-		}
-		lastSpeed = speed;
-		return speed;
-	}
+//	private double limitAccel(double speed) {
+//		double difference = speed - lastSpeed;
+//		double sign = Math.signum(difference);
+//		if (Math.abs(speed) > Math.abs(lastSpeed) && Math.abs(difference) > ACCELERATION_LIMIT) {
+//			speed = lastSpeed + ACCELERATION_LIMIT * sign;
+//		}
+//		lastSpeed = speed;
+//		return speed;
+//	}
 	
-	public void itializeDistancePID(double distanceTarget) {
-		distancePIDController.initialize(distanceTarget);
-	}
-	
-	public boolean isOnDistanceTarget() {
-		return distancePIDController.onTarget();
-	}
-	
-	public double getDistanceError() {
-		return distancePIDController.get();
-	}
 }
