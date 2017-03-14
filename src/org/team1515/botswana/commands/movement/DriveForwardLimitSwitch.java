@@ -13,13 +13,18 @@ public class DriveForwardLimitSwitch extends Command {
 		requires(Robot.driveTrain);
 		this.speed = speed;
 	}
+	
+	public DriveForwardLimitSwitch(double speed, double timeout) {
+		this(speed);
+		setTimeout(timeout);
+	}
 
 	protected void execute() {
 		Robot.driveTrain.setSpeed(new WheelSpeeds(speed, speed, speed, speed));
 	}
 
 	protected boolean isFinished() {
-		return !Robot.limitSwitch.get();
+		return !Robot.limitSwitch.get() || isTimedOut();
 	}
 
 	protected void end() {
