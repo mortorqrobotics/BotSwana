@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class ForwardGearBlindAuto extends CommandGroup {
 
-	static final double PID_SPEED = -0.1;
+	static final double PID_SPEED = -0.2;
 	static final double FORWARD_SPEED = -0.5;
 	
 	static final double PID_TIMEOUT = 8;

@@ -2,21 +2,22 @@ package org.team1515.botswana.commands.auto;
 
 import org.team1515.botswana.commands.manipulators.ToggleGearHolder;
 import org.team1515.botswana.commands.movement.Align;
-import org.team1515.botswana.commands.movement.DriveForwardDistance;
+import org.team1515.botswana.commands.movement.DriveForwardAnglePID;
 import org.team1515.botswana.commands.movement.TurnAngle;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class RightGearSightAuto extends CommandGroup {
 
-	static final int DISTANCE_1 = 133;
-	static final int DISTANCE_2 = 234;
-	static final double ANGLE = -30;
+	static final double TIMEOUT_1 = 5;
+//	static final double TIMEOUT_2 = 2;
+	static final double ANGLE = 30;
+	static final double SPEED = -0.2;
 
 	public RightGearSightAuto() {
-		addSequential(new DriveForwardDistance(DISTANCE_1));
+		addSequential(new DriveForwardAnglePID(SPEED, 0), TIMEOUT_1);
 		addSequential(new TurnAngle(ANGLE));
-		addSequential(new DriveForwardDistance(DISTANCE_2));
+//		addSequential(new Drive(new WheelSpeeds(SPEED, SPEED, SPEED, SPEED), TIMEOUT_2));
 		addSequential(new Align());
 		addSequential(new ToggleGearHolder());
 	}
