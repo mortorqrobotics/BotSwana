@@ -14,7 +14,7 @@ public class Drive extends Command {
     	this.speeds = speeds;
     	setTimeout(time);
     }
-    
+
 	@Override
     protected void initialize() {
 		Robot.driveTrain.setSpeed(speeds);

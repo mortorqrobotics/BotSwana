@@ -1,8 +1,6 @@
 package org.team1515.botswana;
 
 import org.team1515.botswana.commands.ActionCommand;
-import org.team1515.botswana.commands.AutomatedTest;
-import org.team1515.botswana.commands.auto.RightGearSightAuto;
 import org.team1515.botswana.commands.manipulators.ActivateIntake;
 import org.team1515.botswana.commands.manipulators.ReverseDrive;
 import org.team1515.botswana.commands.manipulators.ReverseIntake;
@@ -10,9 +8,8 @@ import org.team1515.botswana.commands.manipulators.ReverseShoot;
 import org.team1515.botswana.commands.manipulators.Shoot;
 import org.team1515.botswana.commands.manipulators.ToggleGearHolder;
 import org.team1515.botswana.commands.manipulators.WinchLift;
-
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.team1515.botswana.commands.movement.Drive;
+import org.team1515.botswana.util.WheelSpeeds;
 
 public class OI {
 
@@ -33,6 +30,10 @@ public class OI {
 		Controls.UN_REVERSE.whenPressed(new ActionCommand(()-> {
 			Robot.driveTrain.undoReverse();
 		}));
+		
+		// after slamming into the loading station with the wall with the robot,
+		// back up the correct amount so the gear can go in the gear holder
+		Controls.LOADING_STATION.whenPressed(new Drive(new WheelSpeeds(0.15, 0.15, 0.15, 0.15), 0.3));
 		
 		Controls.LIFT.whenPressed(new WinchLift());
 		

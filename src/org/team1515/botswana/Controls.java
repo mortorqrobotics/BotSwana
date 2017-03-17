@@ -18,6 +18,7 @@ public class Controls {
 	
 	public static final Button REVERSE = new JoystickButton(Robot.driveStick, 15);
 	public static final Button UN_REVERSE = new JoystickButton(Robot.driveStick, 7);
+	public static final Button LOADING_STATION = new JoystickButton(Robot.driveStick, 4);
 	
 	public static final Button INTAKE = new CombinedButton(Robot.secondStick, 3, 5);
 	public static final Button SHOOT = new CombinedButton(Robot.secondStick, 4, 6);

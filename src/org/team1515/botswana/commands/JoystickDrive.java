@@ -10,14 +10,17 @@ public class JoystickDrive extends Command {
 		requires(Robot.driveTrain);
 	}
 
+	@Override
 	protected void execute() {
 		Robot.driveTrain.drive();
 	}
 
+	@Override
 	protected boolean isFinished() {
 		return false;
 	}
 
+	@Override
 	protected void interrupted() {
 		end();
 	}

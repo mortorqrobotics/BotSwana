@@ -24,7 +24,7 @@ public class DriveForwardLimitSwitch extends Command {
 	}
 
 	protected boolean isFinished() {
-		return !Robot.limitSwitch.get() || isTimedOut();
+		return Robot.gearHolder.isGearDetected() || isTimedOut();
 	}
 
 	protected void end() {

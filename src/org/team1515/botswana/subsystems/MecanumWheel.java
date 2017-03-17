@@ -4,7 +4,6 @@ import org.team1515.botswana.util.MotorModule;
 import org.team1515.botswana.util.Pair;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MecanumWheel {
 

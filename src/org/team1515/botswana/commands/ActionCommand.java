@@ -14,21 +14,21 @@ public class ActionCommand extends Command {
 		}
 	}
 
+	@Override
 	protected void initialize() {
 		runnable.run();
 	}
 
+	@Override
 	protected void execute() {
 	}
 
+	@Override
 	protected boolean isFinished() {
 		return true;
 	}
 
-	protected void end() {
-
-	}
-
+	@Override
 	protected void interrupted() {
 		end();
 	}

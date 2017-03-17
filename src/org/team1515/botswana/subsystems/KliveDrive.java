@@ -38,7 +38,14 @@ public class KliveDrive extends MecanumDrive {
 
 	protected double getThrottle() {
 //		if (true) return 0.6;
-		return (-Robot.driveStick.getRawAxis(Controls.AXIS_THROTTLE) + 1) / 2;
+		double throttle = (-Robot.driveStick.getRawAxis(Controls.AXIS_THROTTLE) + 1) / 2;
+		if (throttle > 0.5) {
+			// normal speed
+			return 0.8;
+		} else {
+			// small adjustment speed
+			return 0.3;
+		}
 	}
 
 	@Override

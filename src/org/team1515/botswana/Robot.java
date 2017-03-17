@@ -8,10 +8,10 @@ import org.team1515.botswana.subsystems.MecanumDrive;
 import org.team1515.botswana.subsystems.MecanumWheel;
 import org.team1515.botswana.subsystems.Shooter;
 import org.team1515.botswana.subsystems.Winch;
-import org.team1515.botswana.util.WheelSpeeds;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -33,7 +33,6 @@ public class Robot extends IterativeRobot {
 	public static final Shooter shooter = new Shooter();
 
 	public static final Gyro gyro = new ADXRS450_Gyro();
-	public static final DigitalInput limitSwitch = new DigitalInput(RobotMap.LIMIT_SWITCH);
 	
 	public static final PowerDistributionPanel pdp = new PowerDistributionPanel(10);
 	
@@ -42,7 +41,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-//		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		
 		autonomousCommand = new ForwardGearBlindAuto();
 		
@@ -73,27 +72,20 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	double x0, y0, z0;
 	@Override
 	public void teleopInit() {
-		x0 = acceler.getX();
-		y0 = acceler.getY();
-		z0 = acceler.getZ();
-		
 		MecanumWheel.K_P = SmartDashboard.getNumber("p", 0);
 		MecanumWheel.K_I = SmartDashboard.getNumber("i", 0);
 		MecanumWheel.K_D = SmartDashboard.getNumber("d", 0);
 	}
 
-	BuiltInAccelerometer acceler = new BuiltInAccelerometer();
-	
 	@Override
 	public void teleopPeriodic() {
-		SmartDashboard.putBoolean("isReversed", Robot.driveTrain.isReversed());
-//		System.out.println("gyro: " + gyro.getRate());
 		Scheduler.getInstance().run();
-		
-		SmartDashboard.putBoolean("limitSwitch", limitSwitch.get());
+
+		SmartDashboard.putBoolean("isReversed", Robot.driveTrain.isReversed());
+		SmartDashboard.putBoolean("limitSwitch", !Robot.gearHolder.isGearDetected());
+		SmartDashboard.putBoolean("gearHolderOpen", !Robot.gearHolder.isOpen());
 		
 //		for(int i : new int[]{2,3,12,13}) {
 //			System.out.print(pdp.getCurrent(i) + "\t");
@@ -116,7 +108,6 @@ public class Robot extends IterativeRobot {
 //		SmartDashboard.putNumber("encBL", Math.abs(rates.bottomLeft) + Math.random() / 10000);
 //		SmartDashboard.putNumber("encBR", Math.abs(rates.bottomRight) + Math.random() / 10000);
 		
-//		System.out.println((acceler.getX() - x0) + "\t" + (acceler.getY() - y0) + "\t" + (acceler.getZ() - z0));
 	}
 
 	@Override

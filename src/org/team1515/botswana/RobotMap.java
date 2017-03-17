@@ -14,7 +14,8 @@ public class RobotMap {
 	public static final Pair<Integer> ENCODER_WHEEL_BOTTOM_LEFT = new Pair<>(4, 5);
 	public static final Pair<Integer> ENCODER_WHEEL_BOTTOM_RIGHT = new Pair<>(0, 1);
 	
-	public static final int LIMIT_SWITCH = 8;
+	public static final int LIMIT_SWITCH_1 = 8;
+	public static final int LIMIT_SWITCH_2 = 9;
 
 	public static final int PDP = 10;
 	public static final int PCM = 11;
@@ -22,7 +23,7 @@ public class RobotMap {
 	public static final Pair<Integer> SOLENOID_GEAR_HOLDER = new Pair<>(0, 1);
 
 	public static final int[] MOTORS_WINCH = {42};
-	public static final int[] MOTORS_FRONT_SHOOTER = {40};
-	public static final int[] MOTORS_BACK_SHOOTER = {41};
+	public static final int[] MOTORS_SHOOTER_TOP_AND_BACK = {40};
+	public static final int[] MOTORS_SHOOTER_BOTTOM_FRONT = {41};
 	
 }

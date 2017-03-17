@@ -45,7 +45,7 @@ public class DriveForwardAnglePID extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return isTimedOut() || !Robot.limitSwitch.get();
+		return isTimedOut() || Robot.gearHolder.isGearDetected();
 	}
 
 	@Override
