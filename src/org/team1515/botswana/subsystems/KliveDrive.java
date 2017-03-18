@@ -27,7 +27,7 @@ public class KliveDrive extends MecanumDrive {
 				z *= 0.4;
 			}
 		} else {
-			x *= 0.2;
+//			x *= 0.2;
 			y *= 0.2;
 			if (!Robot.driveStick.getRawButton(8)) {
 				z *= 0.4;

@@ -1,14 +1,13 @@
 
 package org.team1515.botswana;
 
-import org.team1515.botswana.commands.movement.Drive;
+import org.team1515.botswana.commands.auto.ForwardGearBlindAuto;
 import org.team1515.botswana.subsystems.GearHolder;
 import org.team1515.botswana.subsystems.KliveDrive;
 import org.team1515.botswana.subsystems.MecanumDrive;
 import org.team1515.botswana.subsystems.MecanumWheel;
 import org.team1515.botswana.subsystems.Shooter;
 import org.team1515.botswana.subsystems.Winch;
-import org.team1515.botswana.util.WheelSpeeds;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -45,8 +44,8 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		
-//		autonomousCommand = new ForwardGearBlindAuto();
-		autonomousCommand = new Drive(new WheelSpeeds(-0.25, -0.25, -0.25, -0.25), 3);
+		autonomousCommand = new ForwardGearBlindAuto();
+//		autonomousCommand = new Drive(new WheelSpeeds(-0.25, -0.25, -0.25, -0.25), 3);
 		
 		SmartDashboard.putNumber("p", MecanumWheel.K_P);
 		SmartDashboard.putNumber("i", MecanumWheel.K_I);
