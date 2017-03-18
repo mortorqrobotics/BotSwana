@@ -21,10 +21,22 @@ public class KliveDrive extends MecanumDrive {
 		if(Math.abs(z) <= DEAD_BAND) {
 			z = 0.0;
 		}
+		
+		if (getThrottle() > 0.5) {
+			if (!Robot.driveStick.getRawButton(8)) {
+				z *= 0.4;
+			}
+		} else {
+			x *= 0.2;
+			y *= 0.2;
+			if (!Robot.driveStick.getRawButton(8)) {
+				z *= 0.4;
+			}
+		}
 
-		x *= getThrottle();
-		y *= getThrottle();
-		z *= Math.sqrt(getThrottle()) * 0.5;
+//		x *= getThrottle();
+//		y *= getThrottle();
+//		z *= Math.sqrt(getThrottle()) * 0.5;
 		
 //		if (x != 0) x = 0.2 * Math.signum(x);
 //		if (y != 0) y = 0.2 * Math.signum(y);
@@ -37,15 +49,15 @@ public class KliveDrive extends MecanumDrive {
 	}
 
 	protected double getThrottle() {
-//		if (true) return 0.6;
 		double throttle = (-Robot.driveStick.getRawAxis(Controls.AXIS_THROTTLE) + 1) / 2;
-		if (throttle > 0.5) {
-			// normal speed
-			return 0.8;
-		} else {
-			// small adjustment speed
-			return 0.3;
-		}
+//		if (throttle > 0.5) {
+//			// normal speed
+//			return 0.8;
+//		} else {
+//			// small adjustment speed
+//			return 0.3;
+//		}
+		return throttle;
 	}
 
 	@Override

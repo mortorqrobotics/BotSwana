@@ -16,6 +16,10 @@ public class Winch extends Subsystem {
 	}
 
 	public void lift() {
+		motors.setSpeed(-SPEED);
+	}
+	
+	public void lower() {
 		motors.setSpeed(SPEED);
 	}
 

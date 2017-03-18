@@ -9,7 +9,11 @@ import org.team1515.botswana.commands.manipulators.Shoot;
 import org.team1515.botswana.commands.manipulators.ToggleGearHolder;
 import org.team1515.botswana.commands.manipulators.WinchLift;
 import org.team1515.botswana.commands.movement.Drive;
+import org.team1515.botswana.commands.movement.DriveForwardAnglePID;
+import org.team1515.botswana.commands.movement.TurnAbsoluteAngle;
 import org.team1515.botswana.util.WheelSpeeds;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 public class OI {
 
@@ -35,7 +39,28 @@ public class OI {
 		// back up the correct amount so the gear can go in the gear holder
 		Controls.LOADING_STATION.whenPressed(new Drive(new WheelSpeeds(0.15, 0.15, 0.15, 0.15), 0.3));
 		
-		Controls.LIFT.whenPressed(new WinchLift());
+		Controls.GEAR_UNLOAD.whileHeld(new Command() {
+			Command cmd = new DriveForwardAnglePID(-0.1, 0);
+			@Override
+			protected void initialize() {
+				cmd.start();
+				finished = false;
+			}
+			boolean finished = false;
+			@Override
+			protected void end() {
+				cmd.cancel();
+				finished = true;
+			}
+			@Override
+			protected boolean isFinished() {
+				return finished;
+			}
+		});
+		
+		Controls.FIX_DIRECTION.whenPressed(new TurnAbsoluteAngle(-90));
+		
+		Controls.LIFT.whileHeld(new WinchLift());
 		
 //		Controls.TEST.whenPressed(new AutomatedTest());
 	}

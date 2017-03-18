@@ -19,6 +19,8 @@ public class Controls {
 	public static final Button REVERSE = new JoystickButton(Robot.driveStick, 15);
 	public static final Button UN_REVERSE = new JoystickButton(Robot.driveStick, 7);
 	public static final Button LOADING_STATION = new JoystickButton(Robot.driveStick, 4);
+	public static final Button GEAR_UNLOAD = new JoystickButton(Robot.driveStick, 3);
+	public static final Button FIX_DIRECTION = new JoystickButton(Robot.driveStick, 2);
 	
 	public static final Button INTAKE = new CombinedButton(Robot.secondStick, 3, 5);
 	public static final Button SHOOT = new CombinedButton(Robot.secondStick, 4, 6);
@@ -26,7 +28,7 @@ public class Controls {
 	public static final Button SHOOT_REVERSE = new JoystickButton(Robot.secondStick, 12);
 	public static final Button TOGGLE_GEAR_HOLDER = new JoystickButton(Robot.secondStick, 2);
 	public static final Button ALIGN = new JoystickButton(Robot.driveStick, 4);
-	public static final Button LIFT = new JoystickButton(Robot.secondStick, 13);
+	public static final Button LIFT = new JoystickButton(Robot.secondStick, 1);
 	public static final Button TEST = new JoystickButton(Robot.secondStick, 90);
 
 }
