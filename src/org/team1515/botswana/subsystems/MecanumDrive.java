@@ -221,4 +221,11 @@ public abstract class MecanumDrive extends Subsystem {
 		setSpeed(new WheelSpeeds(speeds.topLeft, speeds.topRight, speeds.bottomLeft, speeds.bottomRight));
 //		pidTest(reverseFactor * triple.first, reverseFactor * triple.second, triple.third);
 	}
+	
+	public void setBrakeMode(boolean brake) {
+		for (MecanumWheel wheel : wheels) {
+			wheel.setBrakeMode(brake);
+		}
+
+	}
 }

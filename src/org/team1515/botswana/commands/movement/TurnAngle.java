@@ -11,8 +11,9 @@ public class TurnAngle extends Command {
 	static final double MIN_ERROR = 0.75;
 	static final int ERROR_INCREMENT_FINISH = 2;
 
-	static final double P = 0.00000001;
-	static final double I = 0.00000001;
+//	static final double P = 0.000001;
+	static final double P = 0.01;
+	static final double I = 0;//.00000001;
 	static final double D = 0;
 
 	double targetAngle;
@@ -27,14 +28,20 @@ public class TurnAngle extends Command {
 		this.targetAngle = targetAngle;
 	}
 	
+	public TurnAngle(double targetAngle, boolean abs) {
+		this(targetAngle + Robot.gyro.getAngle() - Robot.gyroAngleAtAutoStart);
+	}
+	
 	@Override
 	protected void initialize() {
 		errorIncrement = 0;
+		gyroStartAngle = Robot.gyro.getAngle();
 	}
 
 	@Override
 	protected boolean isFinished() {
 		double error = targetAngle - (Robot.gyro.getAngle() - gyroStartAngle);
+		System.out.println(error);
 		double speed = error * P + errorSum * I + (error - lastError) * D;
 		errorSum += error;
 		if (Math.abs(speed) < MIN_SPEED) {
@@ -46,6 +53,7 @@ public class TurnAngle extends Command {
 			errorIncrement++;
 		}
 		lastError = error;
+		if (true) return isTimedOut();
 		if (errorIncrement >= ERROR_INCREMENT_FINISH) {
 			return true;
 		}

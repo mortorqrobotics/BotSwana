@@ -82,6 +82,10 @@ public class MecanumWheel {
 	public int getEncoderDistance() {
 		return encoder.get();
 	}
+	
+	public void setBrakeMode(boolean brake) {
+		motor.setBrakeMode(brake);
+	}
 
 //	private double limitAccel(double speed) {
 //		double difference = speed - lastSpeed;

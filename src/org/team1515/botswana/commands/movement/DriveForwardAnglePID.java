@@ -10,7 +10,7 @@ public class DriveForwardAnglePID extends Command {
 	static final double MIN_SPEED = 0.15;
 	static final double MIN_ERROR = 0.75;
 
-	static final double P = 0.00000001;
+	static final double P = 0.000000001;
 	static final double I = 0;
 	static final double D = 0;
 
@@ -26,6 +26,11 @@ public class DriveForwardAnglePID extends Command {
     	this.targetAngle = targetAngle;
     }
     
+    public DriveForwardAnglePID(double speed, double targetAngle, double timeout) {
+    	this(speed, targetAngle);
+    	setTimeout(timeout);
+	}
+    
 	@Override
     protected void initialize() {
 		gyroStartAngle = Robot.gyro.getAngle();
@@ -39,7 +44,8 @@ public class DriveForwardAnglePID extends Command {
 		if (Math.abs(speed) < MIN_SPEED) {
 			speed = Math.signum(speed) * MIN_SPEED;
 		}
- 		Robot.driveTrain.setSpeed(new WheelSpeeds(speed + this.speed, -speed + this.speed, speed + this.speed, -speed + this.speed));
+ 		Robot.driveTrain.setSpeed(new WheelSpeeds(speed + this.speed, -speed + this.speed,
+ 				speed + this.speed, -speed + this.speed));
 		lastError = error;
 	}
 

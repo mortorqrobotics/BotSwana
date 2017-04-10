@@ -31,5 +31,11 @@ public class MotorModule implements PIDOutput {
 	public void pidWrite(double output) {
 		setSpeed(output);
 	}
+	
+	public void setBrakeMode(boolean brake) {
+		for (CANTalon talon : talons) {
+			talon.enableBrakeMode(brake);
+		}
+	}
 
 }

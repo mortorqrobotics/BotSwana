@@ -19,13 +19,13 @@ public class OI {
 
 	public OI() {
 
-		Controls.INTAKE.whileHeld(new ActivateIntake());
-
-		Controls.SHOOT.whileHeld(new Shoot());
-		
-		Controls.SHOOT_REVERSE.whileHeld(new ReverseShoot());
-		
-		Controls.INTAKE_REVERSE.whileHeld(new ReverseIntake());
+//		Controls.INTAKE.whileHeld(new ActivateIntake());
+//
+//		Controls.SHOOT.whileHeld(new Shoot());
+//		
+//		Controls.SHOOT_REVERSE.whileHeld(new ReverseShoot());
+//		
+//		Controls.INTAKE_REVERSE.whileHeld(new ReverseIntake());
 		
 		Controls.TOGGLE_GEAR_HOLDER.whenPressed(new ToggleGearHolder());
 		

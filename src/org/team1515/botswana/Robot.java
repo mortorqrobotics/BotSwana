@@ -9,9 +9,8 @@ import org.team1515.botswana.subsystems.MecanumWheel;
 import org.team1515.botswana.subsystems.Shooter;
 import org.team1515.botswana.subsystems.Winch;
 
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -35,6 +34,8 @@ public class Robot extends IterativeRobot {
 	
 	public static final PowerDistributionPanel pdp = new PowerDistributionPanel(10);
 	
+	public static final AnalogInput distanceSensor = new AnalogInput(3);
+	
 	public static double gyroAngleAtAutoStart = 0;
 	
 	Command autonomousCommand;
@@ -42,10 +43,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+//		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		
+		// middle
 		autonomousCommand = new ForwardGearBlindAuto();
+
+		// just drive forward
 //		autonomousCommand = new Drive(new WheelSpeeds(-0.25, -0.25, -0.25, -0.25), 3);
+		
+		// test
+//		autonomousCommand = new LeftGearBlindAuto();
+//		autonomousCommand = new TurnAngle(60);
 		
 		SmartDashboard.putNumber("p", MecanumWheel.K_P);
 		SmartDashboard.putNumber("i", MecanumWheel.K_I);
@@ -57,6 +65,7 @@ public class Robot extends IterativeRobot {
 		Robot.driveTrain.resetPID();
 	}
 
+	int counter = 0;
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
@@ -73,6 +82,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		System.out.println(Robot.gyro.getAngle());
 	}
 
 	@Override
@@ -85,6 +96,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		System.out.println(Robot.distanceSensor.getAverageValue());
 
 		SmartDashboard.putBoolean("isReversed", Robot.driveTrain.isReversed());
 		SmartDashboard.putBoolean("limitSwitch", !Robot.gearHolder.isGearDetected());
